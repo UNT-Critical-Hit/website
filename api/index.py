@@ -13,7 +13,6 @@ officers = parse_data(data)
 
 # PAGES
 @app.route('/')
-@app.route('/index.html')
 def page_index():    
     return render_template('index.html')
 
