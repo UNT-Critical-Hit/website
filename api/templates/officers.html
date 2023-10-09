@@ -13,7 +13,7 @@
     </div>
     <div class="row gy-4 row-cols-2 row-cols-md-4">
         {% for officer in officers %}
-            <div class="col meg-center" style="width: 330px;">
+            <div class="col" style="width: 330px;">
                 <div class="card border-0 shadow-none">
                     <div class="card-body text-center d-flex flex-column align-items-center p-0" style="width: 330px;"><img class="rounded-circle mb-3 fit-cover" width="130" height="130" src="{{ url_for('static', filename='assets/officers/' + officer.image_filename) }}">
                         <h5 class="fw-bold text-primary card-title mb-0" style="--bs-primary: #952828;--bs-primary-rgb: 149,40,40;--bs-secondary: #d9d9d9;--bs-secondary-rgb: 217,217,217;">{{officer.position}}</h5>
