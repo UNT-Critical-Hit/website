@@ -13,25 +13,21 @@ officers = parse_data(data)
 
 # PAGES
 @app.route('/')
-@app.route('/index.html')
+@app.route('/index/')
 def page_index():    
     return render_template('index.html')
 
-@app.route('/about.html')
+@app.route('/about/')
 def page_about():
     return render_template('about.html')
 
-@app.route('/officers.html')
+@app.route('/officers/')
 def page_officers():
     f = open('officers.txt')
     data = f.read()
     f.close()
     officers = parse_data(data)
     return render_template('officers.html', officers=officers)
-
-@app.route('/test.html')
-def page_test():
-    return render_template('test.html')
 
 # TESTING
 #'''
