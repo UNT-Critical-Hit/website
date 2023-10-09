@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<header style="height: 323.025px;margin-top: -33px;background: var(--bs-secondary);--bs-primary: #9b2e2e;--bs-primary-rgb: 155,46,46;--bs-secondary: #d9d9d9;--bs-secondary-rgb: 217,217,217;">
+    <h1 class="text-center" style="margin: 33px;margin-left: auto;margin-right: auto;margin-bottom: 11px;font-size: 47.52px;color: var(--bs-dark);text-align: center;padding-top: 22px;">UNT Critical Hit</h1><img class="logo" src="{{ url_for('static', filename='assets/logo.png') }}">
+    <p class="text-center" style="margin-top: 10px;margin-bottom: 47px;"><em>The official UNT club for all things TTRPG.</em></p>
+</header>
+
+<section class="py-4 py-xl-5">
+    <div class="container">
+        <div class="text-center p-4 p-lg-5">
+            <p class="fw-bold text-primary mb-2" style="--bs-primary: #952828;--bs-primary-rgb: 149,40,40;--bs-secondary: #d9d9d9;--bs-secondary-rgb: 217,217,217;">Become a part of the community!</p>
+            <h1 class="fw-bold mb-4">Join or create your own campaign or simply hangout with other likeminded students.</h1><a class="btn btn-primary meg-primBtn" role="button" href="https://discord.gg/9ptD2dr3Yr" target="_blank">Join</a>
+        </div>
+    </div>
+</section>
+
+<div class="carousel slide" data-bs-ride="carousel" id="carousel-1" style="height: 600px;">
+    <div class="carousel-inner h-100">
+        <div class="carousel-item active h-100"><img class="w-100 d-block position-absolute h-100 fit-cover" src="{{ url_for('static', filename='assets/image1.png') }}" alt="Slide Image" style="z-index: -1;"></div>
+        <div class="carousel-item h-100"><img class="w-100 d-block position-absolute h-100 fit-cover" src="{{ url_for('static', filename='assets/image2.png') }}" alt="Slide Image" style="z-index: -1;"></div>
+        <div class="carousel-item h-100"><img class="w-100 d-block position-absolute h-100 fit-cover" src="{{ url_for('static', filename='assets/image3.png') }}" alt="Slide Image" style="z-index: -1;"></div>
+    </div>
+    <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
+    <ol class="carousel-indicators">
+        <li data-bs-target="#carousel-1" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#carousel-1" data-bs-slide-to="1"></li>
+        <li data-bs-target="#carousel-1" data-bs-slide-to="2"></li>
+    </ol>
+</div>
+
+{% endblock %}

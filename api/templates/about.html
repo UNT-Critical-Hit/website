@@ -1,0 +1,46 @@
+
+{% extends "layout.html" %}
+{% block content %}
+
+<header class="header-box">
+    <h1 class="text-center align-items-center justify-content-center"><strong>About</strong></h1>
+</header>
+
+<div class="container py-4 py-xl-5">
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col"><img class="rounded w-100 h-100 fit-cover" style="min-height: 300px;" src="{{ url_for('static', filename='assets/image4.png') }}"></div>
+        <div class="col d-flex flex-column justify-content-center p-4">
+            <div class="text-center text-md-start d-flex flex-column align-items-center align-items-md-start mb-5">
+                <div class="icon bs-icon-md bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon md"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-dice-3">
+                        <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"></path>
+                        <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
+                    </svg></div>
+                <div>
+                    <h4>Join or Start a Campaign</h4>
+                    <p>Join an existing campaign or start your own within minutes. With over 50 active players, we have plenty of campaigns to choose from, ranging from virtual to hybrid to in-person.&nbsp;</p>
+                </div>
+            </div>
+            <div class="text-center text-md-start d-flex flex-column align-items-center align-items-md-start mb-5">
+                <div class="icon bs-icon-md bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon md"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person-plus">
+                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
+                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"></path>
+                    </svg></div>
+                <div>
+                    <h4>Meet Likeminded Students</h4>
+                    <p>Meet other students interested in TTRPGs and form friendships. Talk in our Discord, attend hangouts, and have fun.&nbsp;</p>
+                </div>
+            </div>
+            <div class="text-center text-md-start d-flex flex-column align-items-center align-items-md-start">
+                <div class="icon bs-icon-md bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon md"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-tv">
+                        <path d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zM13.991 3l.024.001a1.46 1.46 0 0 1 .538.143.757.757 0 0 1 .302.254c.067.1.145.277.145.602v5.991l-.001.024a1.464 1.464 0 0 1-.143.538.758.758 0 0 1-.254.302c-.1.067-.277.145-.602.145H2.009l-.024-.001a1.464 1.464 0 0 1-.538-.143.758.758 0 0 1-.302-.254C1.078 10.502 1 10.325 1 10V4.009l.001-.024a1.46 1.46 0 0 1 .143-.538.758.758 0 0 1 .254-.302C1.498 3.078 1.675 3 2 3h11.991zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"></path>
+                    </svg></div>
+                <div>
+                    <h4>Weekly Hangouts</h4>
+                    <p>Every week, if we don't have something else planned, we have a hangout. Past hangouts include late night bowling, movie night, Jackbox game night, dinner at an arcade, and more. Anyone can attend, regardless of enrollment.&nbsp;</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<header class="header-box">
+    <h1 class="text-center align-items-center justify-content-center"><strong>Officers</strong></h1>
+</header>
+
+<div class="container py-4 py-xl-5">
+    <div class="row mb-4 mb-lg-5">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <p class="w-lg-50">Meet our officer team, composing of eight officers all dedicated to ensuring the success of the club and its members.</p>
+        </div>
+    </div>
+    <div class="row gy-4 row-cols-2 row-cols-md-4">
+        {% for officer in officers %}
+            <div class="col meg-center" style="width: 330px;">
+                <div class="card border-0 shadow-none">
+                    <div class="card-body text-center d-flex flex-column align-items-center p-0" style="width: 330px;"><img class="rounded-circle mb-3 fit-cover" width="130" height="130" src="{{ url_for('static', filename='assets/officers/' + officer.image_filename) }}">
+                        <h5 class="fw-bold text-primary card-title mb-0" style="--bs-primary: #952828;--bs-primary-rgb: 149,40,40;--bs-secondary: #d9d9d9;--bs-secondary-rgb: 217,217,217;">{{officer.position}}</h5>
+                        <h5 class="fw-bold text-primary card-title mb-0" style="--bs-primary: #952828;--bs-primary-rgb: 149,40,40;--bs-secondary: #d9d9d9;--bs-secondary-rgb: 217,217,217;"><strong>{{officer.name}}</strong></h5>
+                        <p class="text-muted card-text mb-2"><em>({{officer.pronouns}})</em></p>
+                        <p class="text-muted card-text mb-2" style="text-align: left;max-width: 290px;">{{officer.bio}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
