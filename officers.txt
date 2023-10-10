@@ -1,8 +1,8 @@
 Position: President
 Name: Charlie Gilmore
 Pronouns: they/them
-Bio: <bio>
-Image Filename: 
+Bio: Charlie is a chemistry major who has played ttrpgs since they were 12 years old! When they're not being the discord cryptid, they can be seen working on creative projects.
+Image Filename: charlie.jpg
 
 Position: Vice President
 Name: Meg McAdams
@@ -13,7 +13,7 @@ Image Filename: meg.png
 Position: Membership
 Name: Hallye Aston
 Pronouns: she/her
-Bio: I’m a creative writing major, currently in the process of writing my first book!
+Bio: I'm a creative writing major, currently in the process of writing my first book!
 Image Filename: hal.jpeg
 
 Position: Social Media Manager
@@ -43,5 +43,5 @@ Image Filename: ryan.jpeg
 Position: Treasurer
 Name: Rhys Lawson
 Pronouns: they/them
-Bio: Hey hey! My name is Rhys, i’m a junior Criminal Justice student here at UNT, and i’ve been playing TTRPGs for about two years now! I hope to serve the Critical Hit community to my best ability!
+Bio: Hey hey! My name is Rhys, i'm a junior Criminal Justice student here at UNT, and i've been playing TTRPGs for about two years now! I hope to serve the Critical Hit community to my best ability!
 Image Filename: rhys.jpeg
