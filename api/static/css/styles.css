@@ -1,0 +1,63 @@
+:root {
+
+    --primary-red: #953130;
+    --primary-grey: #545454;
+    --primary-white: #F2F0EB;
+
+    --secondary-dark-red: #792322;
+    --secondary-red: #B26161;
+    --secondary-light-red: #CFA1A1;
+    --secondary-white: #FFFFFF;
+
+    --accent-dark-blue: #177E89;
+    --accent-blue: #5CB4BD;
+    --accent-white: #F1F1F1;
+
+    --header-font: Cambria,Georgia,serif; 
+    --body-font: Cambria,Georgia,serif; 
+
+    --text-colour: black;
+    --card-background: white;
+
+}
+
+@media (min-width: 768px) { /* Medium/Large Devices */
+    nav {
+        padding-left: 100px;
+    }
+}
+
+.logo {
+    border-radius: 128px;
+    height: 179px;
+    background-color: white;
+    display: flex;
+    margin: auto;
+}
+
+.btn {
+    background-color: var(--primary-red);
+    border: none;
+}
+.btn:hover {
+    filter: brightness(120%);
+    background-color: var(--primary-red) !important;
+    border: none;
+}
+
+.header-box {
+    height: 350px;
+    background-color: var(--primary-grey);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.fit-cover {
+    object-fit: cover;
+}
+
+.icon {
+    color: var(--primary-red);
+}

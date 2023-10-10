@@ -6,7 +6,7 @@ from _utils.officers import parse_data
 import sys
 
 # Initialize Flask app
-app = Flask(__name__, static_url_path='', static_folder="./static")
+app = Flask(__name__)
 
 f = open('officers.txt')
 data = f.read()
