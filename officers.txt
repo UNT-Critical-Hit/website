@@ -1,8 +1,8 @@
 Position: President
 Name: Charlie Gilmore
 Pronouns: they/them
-Bio: Charlie is a chemistry major who has played ttrpgs since they were 12 years old! When they're not being the discord cryptid, they can be seen working on creative projects.
-Image Filename: charlie.jpg
+Bio: <bio>
+Image Filename: 
 
 Position: Vice President
 Name: Meg McAdams
