@@ -12,6 +12,7 @@ def parse_data(data):
         else:
             line = line.split(': ')
             officer[line[0].lower().replace(' ','_')] = line[1]
-    officers.append(officer) # append the final officer
+    if officer:
+        officers.append(officer) # append the final officer, if there's one left
 
     return officers

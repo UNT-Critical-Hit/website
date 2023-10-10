@@ -1,3 +1,6 @@
+#import requests
+#print(requests.get("http://api.midnight.wtf:25713/campaigns\?auth\=1e071fa5-f022-44fc-b884-b5e36bc0c80a").content)
+
 from flask import Flask, render_template
 from _utils.officers import parse_data
 import sys
