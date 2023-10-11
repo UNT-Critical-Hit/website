@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="centered-content">
+
+    <form style="padding: 20px;">
+        <h2 class="text-center">{{campaign.name}} Application</h2>
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[-]?)[A-z])*$" required>
+                <input type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[-]?)[A-z])*$" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">UNT Email Address</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <select required class="custom-select" id="inputGroupSelect01" placeholder="Are you a UNT student?">
+                        <option value="" selected>Are you a UNT student?</option>
+                        <option value="yes" onclick="toggle_email(true);">Yes</option>
+                        <option value="no" onclick="toggle_email(false);">No</option>
+                    </select>
+                </div>
+                <input id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="basic-addon2" pattern="^[A-z]{2,99}[0-9]*$">
+                <div id="email_append" class="input-group-append">
+                    <span id="email_addon" class="input-group-text" id="basic-addon2">@my.unt.edu</span>
+                </div>
+            </div>
+            <small id="email_help" class="form-text text-muted">Only officers will have access to your email.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="ttrpg-experience">TTRPG Experience</label>
+            <select class="custom-select" id="ttrpg-experience" required>
+                <option value="" selected>Have you ever played in a TTRPG campaign before?</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+
+        <label for="checklist">Confirmation</label>
+        <div class="form-group" id="checklist">
+            <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="check1" required>
+            <label class="form-check-label" for="check1">I have read over the campaign info for each campaign as posted in the discord.</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check2" required>
+                <label class="form-check-label" for="check2">I am not lying about the above statement.</label> <br>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check3" required>
+                <label class="form-check-label" for="check3">I am aware of the day, time, and location that my desired campaigns are meeting.</label> <br>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check4" required>
+                <label class="form-check-label" for="check4">I can make the day, time, and location that my desired campaigns are meeting.</label> <br>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check5" required>
+                <label class="form-check-label" for="check5">I know to fill out the “Leave a Campaign” form found in #how-to-join and #information if I ever want to leave the campaign.</label> <br>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check6" required>
+                <label class="form-check-label" for="check6">I am aware as to whether or not the campaign(s) I'm signing up for are full or not, and if it/they are, I know I will be added to a waitlist if approved.</label> <br>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check7" required>
+                <label class="form-check-label" for="check7">I know I'll be added to all the campaigns that I signed up for if I'm approved for them all, and I'm okay with that.</label> <br>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+
+<script src="{{ url_for('static', filename='scripts/apply.js') }}"></script>
+
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="centered-content">
+
+    {% for campaign in campaigns %}
+        <div class="card campaign-card">
+            <h2>{{campaign.name}}</h2>
+            <p>Status:
+                {% if campaign.locked == 1 %}
+                    Locked
+                {% elif campaign.current_players >= campaign.max_players %}
+                    Full
+                {% else %}
+                    Open
+                {% endif %}
+                ({{campaign.current_players}}/{{campaign.max_players}})
+            </p>
+            <!-- IF IN CAMPAIGN, SHOW LEAVE BUTTON INSTEAD -->
+            {% if not campaign.locked %}
+                {% if campaign.current_players < campaign.max_players %}
+                    <a class="btn btn-primary" href="{{ url_for('page_apply', campaign_id=campaign.id) }}">Apply to Join</a>
+                {% else %}
+                    <a class="btn btn-secondary" href="{{ url_for('page_apply', campaign_id=campaign.id) }}">Apply for Waitlist</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock content %}
