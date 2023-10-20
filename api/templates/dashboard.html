@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="centered-content">
+
+    <div class="py-4 py-xl-5 m-3">
+        <h2 class="text-center">Dashboard</h2>
+        <p>{{message}}</p>
+        <p>Please contact an <a href="{{ url_for('page_officers') }}">officer</a> if you have any further questions.</p>
+    </div>
+
+</div>
+{% endblock content %}
