@@ -8,6 +8,9 @@ function toggle_email(on = False) {
     let new_style = "";
     if (!on) {
         new_style = "display: none;";
+        email.required = false;
+    } else {
+        email.required = true;
     }
 
     email.style = new_style;

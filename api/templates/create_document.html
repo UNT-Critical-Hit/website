@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="p-5">
+
+    <form action="{{ url_for('page_document', id=document.id) }}" method="post">
+        <h2 class="text-center"><input class="form-control" name="name" type="text" placeholder="Document Name" value="{{document.name}}"></h2>
+
+        <div class="mb-3">
+            {% for key in document.sections.keys() %}
+            {% if not loop.first %}
+                <h5 class="mt-3">{{key}}</h5>
+            {% else %}
+                <h5>{{key}}</h5>
+            {% endif %}
+            <div class="form-group">
+                {% for i in range(document.sections[key]|length) %}
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="check_{{key}}_{{i}}" required>
+                        <label class="form-check-label" for="check_{{key}}_{{i}}">{{document.sections[key][i]}}</label> <br>
+                    </div>
+                {% endfor %}
+                <button type="button">Add field</button>
+            </div>
+            {% endfor %}
+            <button onclick="add_section(this)" type="button" class="btn btn-primary">Add section</button>
+        </div>
+        
+        <button type="submit" class="btn btn-secondary">Save</button>
+    </form>
+
+</div>
+
+<script src="{{ url_for('static', filename='scripts/create_document.js') }}"></script>
+
+{% endblock content %}

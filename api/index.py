@@ -1,43 +1,90 @@
-#import requests
-#print(requests.get("http://api.midnight.wtf:25713/campaigns\?auth\=1e071fa5-f022-44fc-b884-b5e36bc0c80a").content)
-
 from flask import Flask, render_template, request, session, redirect
-#from flask_login import LoginManager, login_user, current_user, logout_user, login_required
+from firebase_admin import credentials, firestore, initialize_app
 from _utils.officers import parse_data
-import sys
 from zenora import APIClient
-from config import TOKEN, CLIENT_SECRET, OAUTH_URL, REDIRECT_URL
-from _utils.discord import get_campaigns, get_campaign
-from _utils.form import submit_form
-
-#submit_form()
-
+from config import TOKEN, CLIENT_SECRET
+from _utils.discord import get_campaigns, get_campaign, get_user
+from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
+from _utils.db import logged_in
+from urllib import parse
 
 # Initialize Flask app
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "verysecret"
 client = APIClient(TOKEN, client_secret=CLIENT_SECRET)
 
-def get_user():
+# Initialize Firestore DB
+cred = credentials.Certificate('key.json')
+fs_app = initialize_app(cred)
+db = firestore.client()
+
+def get_current_user():
     if 'token' in session:
         bearer_client = APIClient(session.get('token'), bearer=True)
-        return bearer_client.users.get_current_user()
+        user = bearer_client.users.get_current_user()
+        logged_in(user.id, db)
+        return user
     else:
         return None
 
 # PAGES
+def page(template, kargs = {}): # used to not have to include all of the default parameters
+    return render_template(template, current_user=get_current_user(), **kargs)
+
 @app.route('/')
 def page_index():
-    return render_template('home.html', current_user=get_user())
+    return page('home.html')
 
 @app.route("/login/")
 def page_login():
-    return redirect(OAUTH_URL)
+    redirect_uri = request.base_url.replace('login/','oauth/callback')
+    oauth_url = "https://discord.com/api/oauth2/authorize?client_id=1161374229099454614&redirect_uri="+parse.quote(redirect_uri)+"&response_type=code&scope=identify%20guilds%20guilds.members.read"
+    return redirect(oauth_url)
 
 @app.route("/logout/")
 def page_logout():
     session.clear()
     return page_index()
+
+'''
+@app.route("/document/<id>")
+def page_document(id):
+    current_user = get_current_user()
+    if not current_user:
+        session['url'] = "/document/" + str(id)
+        return redirect('/login/')
+    document = db.collection('documents').document(id).get().to_dict()
+    return page('document.html', {'document': document})
+
+@app.route("/create-document/")
+@app.route("/create-document/<id>")
+def page_create_document(id = None):
+    current_user = get_current_user()
+    if not current_user:
+        session['url'] = "/document/" + str(id)
+        return redirect('/login/')
+    if id:
+        document = db.collection('documents').document(id).get().to_dict()
+    else:
+        document = db.collection('templates').document('document').get().to_dict()
+    return page('create_document.html', {'document': document})
+
+@app.route("/document/<id>", methods = ["POST"])
+def post_document(id):
+    current_user = get_current_user()
+    if not current_user:
+        session['url'] = "/document/" + str(id)
+        return redirect('/login/')
+    user, error = get_user(current_user.id)
+    if not user:
+        return page_message(error)
+    user.sign_document(db, id)
+    return page_index()
+'''
+    
+@app.route("/message/")
+def page_message(message = "", header = "Oh no!"):
+    return page('message.html', {'header': header, 'message': message})
 
 @app.route("/oauth/callback")
 def callback():
@@ -47,26 +94,90 @@ def callback():
     session['token'] = access_token
     if 'url' in session:
         return redirect(session['url'])
-    print(session)
+
     return redirect("/")
 
 @app.route("/campaigns/")
 def page_campaigns():
-    campaigns = get_campaigns()
-    return render_template('campaigns.html', campaigns=campaigns, current_user=get_user())
+    campaigns, error = get_campaigns()
+    if not campaigns:
+        return page_message(error)
+
+    return page('campaigns.html', {'campaigns':campaigns})
 
 @app.route("/apply/<campaign_id>")
 def page_apply(campaign_id):
-    current_user = get_user()
+    current_user = get_current_user()
     if not current_user:
         session['url'] = "/apply/" + str(campaign_id)
         return redirect('/login/')
-    campaign = get_campaign(campaign_id)
-    return render_template('apply.html', campaign=campaign, current_user=current_user)
+    user, error = get_user(current_user.id)
+    if not user:
+        return page_message(error)
+    reason = user.can_join()
+    if not reason:
+        campaign, error = get_campaign(campaign_id)
+        if not campaign:
+            return page_message(error)
+        return page('apply.html', {'campaign':campaign})
+    else:
+        return page_message(message = "You don't have permission to perform this action. " + reason)
+    
+@app.route("/apply/<campaign_id>", methods=["POST"])
+def post_apply(campaign_id):
+    current_user = get_current_user()
+    if not current_user:
+        session['url'] = "/apply/" + str(campaign_id)
+        return redirect('/login/')
+    user, error = get_user(current_user.id)
+    if not user:
+        return page_message(error)
+    reason = user.can_join()
+    if not reason:
+        campaign, error = get_campaign(campaign_id)
+        if not campaign:
+            return page_message(error)
+        send_new_application(request.form, user, campaign)
+        submit_player(request.form, user, campaign)
+        return redirect('/')
+    else:
+        return page_message(message = "You don't have permission to perform this action. " + reason)
+    
+@app.route("/create/")
+def page_create():
+    current_user = get_current_user()
+    if not current_user:
+        session['url'] = "/create/"
+        return redirect('/login/')
+    user, error = get_user(current_user.id)
+    if not user:
+        return page_message(error)
+    reason = user.can_create(db)
+    if not reason:
+        return page('create.html')
+    else:
+        return page_message(message = "You don't have permission to perform this action. " + reason)
+    
+@app.route("/create/", methods=["POST"])
+def post_create():
+    current_user = get_current_user()
+    if not current_user:
+        session['url'] = "/create/"
+        return redirect('/login/')
+    user, error = get_user(current_user.id)
+    if not user:
+        return page_message(error)
+    reason = user.can_create(db)
+    if not reason:
+        send_new_campaign(request.form, user)
+        submit_dm(request.form, user)
+        return redirect('/')
+    else:
+        return page_message(message = "You don't have permission to perform this action. " + reason)
 
 @app.route('/about/')
 def page_about():
-    return render_template('about.html', current_user=get_user())
+    return page('about.html')
 
 @app.route('/officers/')
 def page_officers():
@@ -74,7 +185,7 @@ def page_officers():
     data = f.read()
     f.close()
     officers = parse_data(data)
-    return render_template('officers.html', officers=officers, current_user=get_user())
+    return page('officers.html', {'officers':officers})
 
 # TESTING
 #'''

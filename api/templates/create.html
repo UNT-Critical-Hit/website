@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="centered-content">
+
+    <form style="padding: 20px;" action="{{ url_for('page_create') }}" method="post">
+        <h2 class="text-center">New Campaign Application</h5>
+        <h5>DM Information</h2>
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-group">
+                <input name="name_first" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[-]?)[A-z])*$" required>
+                <input name="name_last" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[-]?)[A-z])*$" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">UNT Email Address</label>
+            <div class="input-group mb-3">
+                <input name="unt_email" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="email_addon" pattern="^[A-z]{2,99}[0-9]*$" required>
+                <div id="email_append" class="input-group-append">
+                    <span id="email_addon" class="input-group-text">@my.unt.edu</span>
+                </div>
+            </div>
+            <small id="email_help" class="form-text text-muted">Only officers will have access to your email.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="dm-experience">DM Experience</label>
+            <select name="dm_experience" class="custom-select" id="dm-experience" required autocomplete="off">
+                <option value="" selected>Have you ever DM'ed a campaign before?</option>
+                <option value="Yes" onclick="toggle_playstyle(true)">Yes</option>
+                <option value="No" onclick="toggle_playstyle()">No</option>
+            </select>
+        </div>
+
+        <label id="playstyle_label" for="playstyle" style="display: none;">DM Playstyle</label>
+        <textarea name="playstyle" id="playstyle" class="form-control" oninput="validate_playstyle()" placeholder="Please describe your playstle as a DM briefly." style="display: none;"></textarea>
+
+        <h5 class="mt-5">Campaign Logistics</h5>
+        <div class="form-group">
+            <label for="campaign_name">Campaign Title</label>
+            <input class="form-control" type="text" name="campaign_name" placeholder="Campaign Title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="new_player_friendly">New Player Friendly</label>
+            <select name="new_player_friendly" id="new_player_friendly" class="custom-select" required autocomplete="off">
+                <option value="" selected>Is this campaign new player friendly?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="time-group">Day and Time</label>
+            <div class="input-group" id="time-group">
+                <select name="frequency" class="custom-select" id="frequency" autocomplete="off" required>
+                    <option value="" selected onclick="toggle_date();">Frequency</option>
+                    <option value="Once (one-shot)" onclick="toggle_date(true);">One-shot</option>
+                    <option value="Once every week" onclick="toggle_date();">Every</option>
+                    <option value="Once every other week" onclick="toggle_date();">Every other</option>
+                    <option value="Once a month" onclick="toggle_date();">Once a month</option>
+                </select>
+                <select name="day" class="custom-select" id="day" required>
+                    <option value="" selected>Weekday</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Wednesday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                </select>
+                <div id="day_append" class="input-group-append">
+                    <span class="input-group-text">at</span>
+                </div>
+                <input name="time" id="time" type="time" class="form-control" required>
+                <div id="date_append" class="input-group-append" style="display: none;">
+                    <span id="date_addon" class="input-group-text">on</span>
+                </div>
+                <input name="date" id="date" type="date" class="form-control"  style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="length_group">Session Length</label>
+            <div class="input-group" id="length_group">
+                <input name="session_length_hours" class="form-control" type="number" placeholder="Hours" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">hours</span>
+                </div>
+                <input name="session_length_minutes" class="form-control" type="number" placeholder="Minutes" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">minutes</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="location">Location</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <select name="location" class="custom-select" id="location" autocomplete="off" required>
+                        <option value="" onclick="toggle_inperson();" selected>Where will sessions be held?</option>
+                        <option value="In-person" onclick="toggle_inperson(true);">In-Person</option>
+                        <option value="Virtually" onclick="toggle_inperson();">Virtually</option>
+                        <option value="Hybrid" onclick="toggle_inperson();">Hybrid</option>
+                    </select>
+                </div>
+                <div>
+                    <select name="location_inperson" required class="custom-select" id="inperson_location" style="display:none;" autocomplete="off">
+                        <option value="" onclick="toggle_other();" selected>Where on-campus will sessions be held?</option>
+                        <option value="Willis Library" onclick="toggle_other();">Willis Library</option>
+                        <option value="Media Library" onclick="toggle_other();">Media Library</option>
+                        <option value="Sycamore Library" onclick="toggle_other();">Sycamore Library</option>
+                        <option value="Other" onclick="toggle_other(true);">Other</option>
+                    </select>
+                </div>
+                <input name="location_inperson_other" id="other" type="text" class="form-control" placeholder="Other..." aria-label="Other" aria-describedby="other_append" pattern="^[A-z]{2,99}[0-9]*$" style="display:none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="count_group">Player Count</label>
+            <div class="input-group" id="count_group">
+                <input name="min_players" id="min_players" class="form-control" type="number" placeholder="Minimum players" required onkeyup="validate_min()" onblur="validate_min()">
+                <div class="input-group-append">
+                    <span class="input-group-text">to</span>
+                </div>
+                <input name="max_players" id="max_players" class="form-control" type="number" placeholder="Maximum players" required onkeyup="validate_max()" onblur="validate_max()">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="system">System</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <select name="system" class="custom-select" id="system" required>
+                        <option value="" onclick="toggle_system_other();" selected>What system will your campaign be run using?</option>
+                        <option value="D&D 5e" onclick="toggle_system_other();">D&D 5e</option>
+                        <option value="Pathfinder 2e" onclick="toggle_system_other();">Pathfinder 2e</option>
+                        <option value="Other" onclick="toggle_system_other(true);">Other</option>
+                    </select>
+                </div>
+                <input name="system_other" id="other_system" type="text" class="form-control" placeholder="Other..." aria-label="Other" aria-describedby="other_append" pattern="^[A-z]{2,99}[0-9]*$" style="display:none;">
+            </div>
+        </div>
+
+        <h5 class="mt-5">Campaign Description</h5>
+        <textarea name="desc" id="desc" class="form-control" oninput="validate_desc()" placeholder="Please describe your campaign briefly." required minlength="100" maxlength="600"></textarea>
+
+        <h5 class="mt-5">Confirmation</h5>
+        <div class="form-group" id="checklist">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check1" required>
+                <label class="form-check-label" for="check1">I am a current UNT student.</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="check2" required>
+                <label class="form-check-label" for="check2">I have read and agreed to the <a href="https://tinyurl.com/6j87ncx8" target="_blank">Dungeon Master Agreement.</a></label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-secondary">Submit</button>
+        <button class="btn btn-secondary" onclick="history.back()">Cancel</button>
+    </form>
+
+</div>
+
+<script src="{{ url_for('static', filename='scripts/create.js') }}"></script>
+
+{% endblock content %}
