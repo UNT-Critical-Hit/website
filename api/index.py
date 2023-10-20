@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect
 from firebase_admin import credentials, firestore, initialize_app
 from _utils.officers import parse_data
 from zenora import APIClient
-from config import TOKEN, CLIENT_SECRET
+from _utils.config import TOKEN, CLIENT_SECRET
 from _utils.discord import get_campaigns, get_campaign, get_user
 from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
 from _utils.db import logged_in
