@@ -89,7 +89,8 @@ def page_message(message = "", header = "Oh no!"):
 @app.route("/oauth/callback")
 def callback():
     code = request.args['code']
-    access_token = client.oauth.get_access_token(code, REDIRECT_URL).access_token
+    redirect_uri = request.base_url
+    access_token = client.oauth.get_access_token(code, redirect_uri).access_token
     
     session['token'] = access_token
     if 'url' in session:
