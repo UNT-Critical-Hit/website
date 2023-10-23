@@ -1,7 +1,8 @@
 import requests
 from datetime import datetime
+from _utils.db import submit_report
 
-def submit_player(submission, user, campaign):
+def submit_player(submission, user, campaign, db):
     url = "https://docs.google.com/forms/d/1Xbl5zCFP8XnTAU7EqVEh2aULOB_ojvuJ6B763XAPc28/formResponse"
 
     unt_email = ""
@@ -24,9 +25,10 @@ def submit_player(submission, user, campaign):
     if r.status_code == 200:
         return True
     else:
+        submit_report(db, "submit_player", "Response code: " + str(r.status_code), user)
         return False
     
-def send_new_application(submission, user, campaign):
+def send_new_application(submission, user, campaign, db):
     print("Attempting to send new application...")
     url = "https://api.midnight.wtf/campaigns/apply?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a"
 
@@ -48,13 +50,12 @@ def send_new_application(submission, user, campaign):
     r = requests.post(url, json=data)
     print("Response:", r)
     if r.status_code == 200:
-        print("Success!")
         return True
     else:
-        print("Failure! Code:",r.status_code)
+        submit_report(db, "send_new_application", "Response code: " + str(r.status_code), user)
         return False
 
-def submit_dm(submission, user):
+def submit_dm(submission, user, db):
     url = "https://docs.google.com/forms/d/e/1FAIpQLSeNbRUnipi4PUt5xSakmKEpC0wXIW2-Ns19GffKwzdBfM18KQ/formResponse"
 
     location = submission['location']
@@ -70,6 +71,10 @@ def submit_dm(submission, user):
     else:
         day = submission['day']
 
+    playstyle = ""
+    if submission['dm_experience'] == 'Yes':
+        playstyle = submission['playstyle']
+
     session_length = ""
     if int(submission['session_length_hours']) == 0:
         session_length = submission['session_length_minutes'] + " minutes"
@@ -84,7 +89,7 @@ def submit_dm(submission, user):
     "entry.953372418": submission['name_last'], # last name
     "entry.723836057": user.name, # discord username
     "entry.557094337": user.id, # discord id
-    "entry.1040133704": submission['unt_email'] + "my.unt.edu", # unt email
+    "entry.1040133704": submission['unt_email'] + "@my.unt.edu", # unt email
     "entry.164145856": submission['dm_experience'], # dm experience
     "entry.1654576497": submission['frequency'], # frequency
     "entry.233268853": day, # day
@@ -97,7 +102,7 @@ def submit_dm(submission, user):
     "entry.1310138135": submission['desc'], # description
     "entry.1410994733": location, # location
     "entry.1556498857": submission['new_player_friendly'], # new player friendly
-    "entry.527869327": submission['playstyle'] # playstyle
+    "entry.527869327": playstyle # playstyle
     }
 
     r = requests.post(url, params = data)
@@ -105,9 +110,10 @@ def submit_dm(submission, user):
     if r.status_code == 200:
         return True
     else:
+        submit_report(db, "submit_dm", "Response code: " + str(r.status_code), user)
         return False
 
-def send_new_campaign(submission, user):
+def send_new_campaign(submission, user, db):
     url = "https://api.midnight.wtf/campaigns/create?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a"
 
     location = submission['location']
@@ -119,9 +125,9 @@ def send_new_campaign(submission, user):
     date = ""
     day = ""
     if submission['frequency'] == 'Once (one-shot)':
-        try:
-            date = datetime.strptime(submission['date'], "%Y-%m-%d")
-        except ValueError:
+        if type(submission['date']) == datetime:
+            date = submission['date'].strftime('%Y-%m-%d')
+        else:
             date = submission['date']
     else:
         day = submission['day']
@@ -138,10 +144,6 @@ def send_new_campaign(submission, user):
     else:
         session_length = submission['session_length_hours'] + " hours and " + submission['session_length_minutes'] + " minutes"
 
-    new_player_friendly = 0
-    if submission['new_player_friendly'] == 'Yes':
-        new_player_friendly = 1
-
     data = {
     "name": submission['campaign_name'],
     "dm": {
@@ -149,7 +151,7 @@ def send_new_campaign(submission, user):
         "last_name": submission['name_last'],
         "discord_tag": user.name,
         "discord_id": user.id,
-        "unt_email": submission['unt_email'] + "my.unt.edu",
+        "unt_email": submission['unt_email'] + "@my.unt.edu",
         "dm_experience": submission['dm_experience']
     },
     "min_players": submission['min_players'],
@@ -163,7 +165,7 @@ def send_new_campaign(submission, user):
     "meeting_day": day,
     "meeting_date": date,
     "system": submission['system'],
-    "new_player_friendly": new_player_friendly
+    "new_player_friendly": submission['new_player_friendly']
     }
 
     r = requests.post(url, json=data)
@@ -171,4 +173,5 @@ def send_new_campaign(submission, user):
     if r.status_code == 200:
         return True
     else:
+        submit_report(db, "send_new_campaign", "Response code: " + str(r.status_code), user)
         return False

@@ -1,3 +1,14 @@
+.btn-tertiary {
+    color: #fff;
+    background-color: #545454;
+    border-color: #afafaf;
+}
+
+.btn-tertiary:hover, .btn-tertiary:focus {
+    background-color: #272727 !important;
+    color: white !important;
+}
+
 /*------------------------------------
 - COLOR primary
 ------------------------------------*/
@@ -47,7 +58,7 @@ button.bg-primary:focus {
 }
 
 .btn-primary {
-    color: #fff;
+    color: #fff !important;
     background-color: #953130;
     border-color: #953130;
 }
@@ -191,7 +202,7 @@ button.bg-secondary:focus {
 }
 
 .btn-secondary {
-    color: #fff;
+    color: #fff !important;
     background-color: #177E89;
     border-color: #177E89;
 }
@@ -291,3 +302,4 @@ button.bg-secondary:focus {
 a.text-secondary:hover, a.text-secondary:focus {
     color: #0f555d !important;
 }
+

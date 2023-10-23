@@ -100,3 +100,20 @@ function unfilter(element, id = null) {
         }
     }
 }
+
+let expanded = null;
+
+function expand(element) {
+    if (element.innerHTML == 'Expand') {
+        if (expanded != null) {
+            expanded.innerHTML = 'Expand';
+            expanded.parentElement.parentElement.setAttribute('class', 'card campaign-card');
+        }
+        element.innerHTML = 'Revert';
+        element.parentElement.parentElement.setAttribute('class', 'card campaign-card campaign-card-expanded');
+        expanded = element;
+    } else {
+        element.innerHTML = 'Expand';
+        element.parentElement.parentElement.setAttribute('class', 'card campaign-card');
+    }
+}
