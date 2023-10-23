@@ -54,7 +54,7 @@ class Campaign:
     meeting_time: str = ""
     meeting_date: str = ""
     system: str = ""
-    new_player_friendly: int = 0
+    new_player_friendly: str = ""
     players: list[int] = None
     waitlist: list[int] = None
 

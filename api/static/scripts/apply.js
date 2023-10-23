@@ -7,13 +7,26 @@ function toggle_email(on = False) {
 
     let new_style = "";
     if (!on) {
+        if (email != null) {
+            email.remove();
+        }
         new_style = "display: none;";
-        email.required = false;
     } else {
-        email.required = true;
+        if (email == null) {
+            let newElement = document.createElement("input");
+            newElement.name = "unt_email";
+            newElement.id = "email";
+            newElement.type = "text";
+            newElement.setAttribute('class', 'form-control');
+            newElement.placeholder = "UNT Email Address";
+            newElement.ariaLabel = "UNT Email Address";
+            newElement.setAttribute('aria-describedby', 'basic-addon2');
+            newElement.pattern = "^[A-z]{2,99}[0-9]*$";
+            let next = document.getElementById('email_append');
+            next.parentElement.insertBefore(newElement, next);
+        }
     }
 
-    email.style = new_style;
     append.style = new_style;
     addon.style = new_style;
     help.style = new_style;

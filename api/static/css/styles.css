@@ -45,6 +45,7 @@
 .campaign-card-expanded p {
     -webkit-line-clamp: unset !important;
     transition-duration: 2s !important;
+    white-space: unset !important;
 }
 
 .campaign-card .campaign-desc {
@@ -134,4 +135,8 @@ select:invalid, input:invalid {
     .bootstrap-select .dropdown-menu {
         min-width: 100px !important;
     }
+}
+
+.message {
+    max-width: 800px;
 }

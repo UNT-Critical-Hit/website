@@ -5,8 +5,10 @@ from zenora import APIClient
 from _utils.config import TOKEN, CLIENT_SECRET
 from _utils.discord import get_campaigns, get_campaign, get_user
 from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
-from _utils.db import logged_in
+from _utils.db import logged_in, submit_report
+from _utils.messages import get_apply_message, get_create_message
 from urllib import parse
+from markupsafe import Markup
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -45,46 +47,10 @@ def page_login():
 def page_logout():
     session.clear()
     return page_index()
-
-'''
-@app.route("/document/<id>")
-def page_document(id):
-    current_user = get_current_user()
-    if not current_user:
-        session['url'] = "/document/" + str(id)
-        return redirect('/login/')
-    document = db.collection('documents').document(id).get().to_dict()
-    return page('document.html', {'document': document})
-
-@app.route("/create-document/")
-@app.route("/create-document/<id>")
-def page_create_document(id = None):
-    current_user = get_current_user()
-    if not current_user:
-        session['url'] = "/document/" + str(id)
-        return redirect('/login/')
-    if id:
-        document = db.collection('documents').document(id).get().to_dict()
-    else:
-        document = db.collection('templates').document('document').get().to_dict()
-    return page('create_document.html', {'document': document})
-
-@app.route("/document/<id>", methods = ["POST"])
-def post_document(id):
-    current_user = get_current_user()
-    if not current_user:
-        session['url'] = "/document/" + str(id)
-        return redirect('/login/')
-    user, error = get_user(current_user.id)
-    if not user:
-        return page_message(error)
-    user.sign_document(db, id)
-    return page_index()
-'''
     
 @app.route("/message/")
 def page_message(message = "", header = "Oh no!"):
-    return page('message.html', {'header': header, 'message': message})
+    return page('message.html', {'header': header, 'message': Markup(message)})
 
 @app.route("/oauth/callback")
 def callback():
@@ -100,7 +66,7 @@ def callback():
 
 @app.route("/campaigns/")
 def page_campaigns():
-    campaigns, error = get_campaigns()
+    campaigns, error = get_campaigns(db, get_current_user())
     if not campaigns:
         return page_message(error)
 
@@ -112,12 +78,12 @@ def page_apply(campaign_id):
     if not current_user:
         session['url'] = "/apply/" + str(campaign_id)
         return redirect('/login/')
-    user, error = get_user(current_user.id)
+    user, error = get_user(current_user.id, db, current_user)
     if not user:
         return page_message(error)
     reason = user.can_join()
     if not reason:
-        campaign, error = get_campaign(campaign_id)
+        campaign, error = get_campaign(campaign_id, db, current_user)
         if not campaign:
             return page_message(error)
         return page('apply.html', {'campaign':campaign})
@@ -130,17 +96,19 @@ def post_apply(campaign_id):
     if not current_user:
         session['url'] = "/apply/" + str(campaign_id)
         return redirect('/login/')
-    user, error = get_user(current_user.id)
+    user, error = get_user(current_user.id, db, current_user)
     if not user:
         return page_message(error)
     reason = user.can_join()
     if not reason:
-        campaign, error = get_campaign(campaign_id)
+        campaign, error = get_campaign(campaign_id, db, current_user)
         if not campaign:
             return page_message(error)
-        send_new_application(request.form, user, campaign)
-        submit_player(request.form, user, campaign)
-        return redirect('/')
+        if not send_new_application(request.form, user, campaign, db):
+            return page_message(message = "An unknown error occurred while submitting your application.")
+        submit_player(request.form, user, campaign, db)
+        header, message = get_apply_message(campaign)
+        return page_message(message = message, header = header)
     else:
         return page_message(message = "You don't have permission to perform this action. " + reason)
     
@@ -150,7 +118,7 @@ def page_create():
     if not current_user:
         session['url'] = "/create/"
         return redirect('/login/')
-    user, error = get_user(current_user.id)
+    user, error = get_user(current_user.id, db, current_user)
     if not user:
         return page_message(error)
     reason = user.can_create(db)
@@ -165,14 +133,16 @@ def post_create():
     if not current_user:
         session['url'] = "/create/"
         return redirect('/login/')
-    user, error = get_user(current_user.id)
+    user, error = get_user(current_user.id, db, current_user)
     if not user:
         return page_message(error)
     reason = user.can_create(db)
     if not reason:
-        send_new_campaign(request.form, user)
-        submit_dm(request.form, user)
-        return redirect('/')
+        if not send_new_campaign(request.form, user, db):
+            return page_message(message = "An error has occurred while submitting your application.")
+        submit_dm(request.form, user, db)
+        header, message = get_create_message()
+        return page_message(header = header, message = header)
     else:
         return page_message(message = "You don't have permission to perform this action. " + reason)
 

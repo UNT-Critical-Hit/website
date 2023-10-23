@@ -9,8 +9,8 @@
         <div class="form-group">
             <label for="name">Full Name</label>
             <div class="input-group">
-                <input name="name_first" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[-]?)[A-z])*$" required>
-                <input name="name_last" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[-]?)[A-z])*$" required>
+                <input name="name_first" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input name="name_last" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
             </div>
         </div>
 
@@ -34,10 +34,7 @@
             </select>
         </div>
 
-        <label id="playstyle_label" for="playstyle" style="display: none;">DM Playstyle</label>
-        <textarea name="playstyle" id="playstyle" class="form-control" oninput="validate_playstyle()" placeholder="Please describe your playstle as a DM briefly." style="display: none;"></textarea>
-
-        <h5 class="mt-5">Campaign Logistics</h5>
+        <h5 id="after_playstyle" class="mt-5">Campaign Logistics</h5>
         <div class="form-group">
             <label for="campaign_name">Campaign Title</label>
             <input class="form-control" type="text" name="campaign_name" placeholder="Campaign Title" required>
@@ -72,6 +69,7 @@
                     <option value="Friday">Friday</option>
                     <option value="Saturday">Saturday</option>
                 </select>
+                <div id="after_day"></div>
                 <div id="day_append" class="input-group-append">
                     <span class="input-group-text">at</span>
                 </div>
@@ -79,7 +77,7 @@
                 <div id="date_append" class="input-group-append" style="display: none;">
                     <span id="date_addon" class="input-group-text">on</span>
                 </div>
-                <input name="date" id="date" type="date" class="form-control"  style="display: none;">
+                <div id="after_date"></div>
             </div>
         </div>
 
@@ -108,16 +106,8 @@
                         <option value="Hybrid" onclick="toggle_inperson();">Hybrid</option>
                     </select>
                 </div>
-                <div>
-                    <select name="location_inperson" required class="custom-select" id="inperson_location" style="display:none;" autocomplete="off">
-                        <option value="" onclick="toggle_other();" selected>Where on-campus will sessions be held?</option>
-                        <option value="Willis Library" onclick="toggle_other();">Willis Library</option>
-                        <option value="Media Library" onclick="toggle_other();">Media Library</option>
-                        <option value="Sycamore Library" onclick="toggle_other();">Sycamore Library</option>
-                        <option value="Other" onclick="toggle_other(true);">Other</option>
-                    </select>
-                </div>
-                <input name="location_inperson_other" id="other" type="text" class="form-control" placeholder="Other..." aria-label="Other" aria-describedby="other_append" pattern="^[A-z]{2,99}[0-9]*$" style="display:none;">
+                <div id="after_location_inperson_div"></div>
+                <div id="after_location_inperson_other"></div>
             </div>
         </div>
 
@@ -143,7 +133,7 @@
                         <option value="Other" onclick="toggle_system_other(true);">Other</option>
                     </select>
                 </div>
-                <input name="system_other" id="other_system" type="text" class="form-control" placeholder="Other..." aria-label="Other" aria-describedby="other_append" pattern="^[A-z]{2,99}[0-9]*$" style="display:none;">
+                <div id="after_system_other"></div>
             </div>
         </div>
 
