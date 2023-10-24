@@ -67,7 +67,7 @@
         <div class="card campaign-card">
             <h2 class="card-header text-center">{{campaign.name}}</h2>
             <div class="card-body">
-                <a class="btn btn-secondary float-right" onclick="expand(this)">Expand</a>
+                <a class="btn btn-secondary float-right expand_button">Expand</a>
                 <h5 class="card-title">Information</h5>
                 <p class="mb-1 Status">Status: {% if campaign.is_over() %}Completed (one-shot){% elif campaign.locked == 1 %}Locked{% elif campaign.current_players >= campaign.max_players %}Full{% else %}Open{% endif %}</p>
                 <p class="mb-1">Seats: {{campaign.current_players}}/{{campaign.max_players}}</p>

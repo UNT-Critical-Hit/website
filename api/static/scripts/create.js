@@ -1,6 +1,13 @@
-function toggle_other(on = false) {
+function toggle_other() {
     let element = document.getElementById('other');
-    if (!on) {
+    let inperson_location = document.getElementById('inperson_location');
+    let val1 = "";
+    let val2 = "";
+    if (inperson_location != null) {
+        val1 = document.getElementById('inperson_location').value;
+        val2 = document.getElementById('location').value;
+    }
+    if (val1 != "Other" || val2 != "In-person" || inperson_location == null) {
         if (element != null) {
             element.remove();
         }
@@ -22,10 +29,12 @@ function toggle_other(on = false) {
     }
 }
 
-function toggle_inperson(on = false) {
+function toggle_inperson() {
     let element = document.getElementById('inperson_location');
-    if (!on) {
+    let val = document.getElementById('location').value;
+    if (val != "In-person") {
         if (element != null) {
+            document.getElementById('inperson_location').removeEventListener('change', toggle_other);
             element.remove();
         }
     } else {
@@ -33,22 +42,24 @@ function toggle_inperson(on = false) {
             let newElement = document.createElement('div');
             newElement.id = "location_inperson_div"
             newElement.innerHTML = "<select name=\"location_inperson\" required class=\"custom-select\" id=\"inperson_location\" autocomplete=\"off\">" +
-            "<option value=\"\" onclick=\"toggle_other();\" selected>Where on-campus will sessions be held?</option>" +
-            "<option value=\"Willis Library\" onclick=\"toggle_other();\">Willis Library</option>" +
-            "<option value=\"Media Library\" onclick=\"toggle_other();\">Media Library</option>" +
-            "<option value=\"Sycamore Library\" onclick=\"toggle_other();\">Sycamore Library</option>" +
-            "<option value=\"Other\" onclick=\"toggle_other(true);\">Other</option>" +
+            "<option value=\"\" selected>Where on-campus will sessions be held?</option>" +
+            "<option value=\"Willis Library\">Willis Library</option>" +
+            "<option value=\"Media Library\">Media Library</option>" +
+            "<option value=\"Sycamore Library\">Sycamore Library</option>" +
+            "<option value=\"Other\">Other</option>" +
             "</select>";
             let next = document.getElementById('after_location_inperson_div');
             next.parentElement.insertBefore(newElement, next);
+            document.getElementById('inperson_location').addEventListener('change', toggle_other);
         }
     }
     toggle_other();
 }
 
-function toggle_system_other(on = false) {
+function toggle_system_other() {
     let element = document.getElementById('other_system');
-    if (!on) {
+    let val = document.getElementById('system').value;
+    if (val != "Other") {
         if (element != null) {
             element.remove();
         }
@@ -157,10 +168,11 @@ function validate_max() {
     }
 }
 
-function toggle_playstyle(on = false) {
-
+function toggle_playstyle() {
     let element = document.getElementById('playstyle_div');
-    if (on == true) {
+    let val = document.getElementById('dm_experience').value;
+
+    if (val == "Yes") {
         if (element == null) {
             let newElement = document.createElement('div');
             newElement.id = "playstyle_div";
@@ -178,13 +190,14 @@ function toggle_playstyle(on = false) {
     
 }
 
-function toggle_date(on = false) {
+function toggle_date() {
     let date = document.getElementById('date');
     let date_append = document.getElementById('date_append');
     let day = document.getElementById('day');
     let day_append = document.getElementById('day_append');
+    let val = document.getElementById('frequency').value;
 
-    if (on == true) {
+    if (val == "Once (one-shot)") {
         if (date == null) {
             let newDate = document.createElement('input'); // <input name="date" id="date" type="date" class="form-control" style="display: none;"></input>
             newDate.name = "date";
@@ -232,3 +245,15 @@ window.addEventListener('load', function() {
     validate_min();
     //validate_playstyle();
 });
+
+document.getElementById('dm_experience').addEventListener('change', toggle_playstyle);
+
+document.getElementById('frequency').addEventListener('change',toggle_date);
+
+document.getElementById("back_button").addEventListener("click", () => {
+    history.back();
+});
+
+document.getElementById('location').addEventListener('change',toggle_inperson);
+
+document.getElementById('system').addEventListener('change',toggle_system_other);

@@ -7,7 +7,7 @@
         <h2 class="text-center">New Campaign Application</h5>
         <h5>DM Information</h2>
         <div class="form-group">
-            <label for="name">Full Name</label>
+            <label for="name_first">Full Name</label>
             <div class="input-group">
                 <input name="name_first" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
                 <input name="name_last" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
@@ -15,9 +15,9 @@
         </div>
 
         <div class="form-group">
-            <label for="email">UNT Email Address</label>
+            <label for="unt_email">UNT Email Address</label>
             <div class="input-group mb-3">
-                <input name="unt_email" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="email_addon" pattern="^[A-z]{2,99}[0-9]*$" required>
+                <input name="unt_email" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="email_addon" pattern="^[A-z]{2,99}[0-9]*$" autocomplete="on" required>
                 <div id="email_append" class="input-group-append">
                     <span id="email_addon" class="input-group-text">@my.unt.edu</span>
                 </div>
@@ -26,11 +26,11 @@
         </div>
 
         <div class="form-group">
-            <label for="dm-experience">DM Experience</label>
-            <select name="dm_experience" class="custom-select" id="dm-experience" required autocomplete="off">
+            <label for="dm_experience">DM Experience</label>
+            <select id="dm_experience" name="dm_experience" class="custom-select" id="dm-experience" required autocomplete="off">
                 <option value="" selected>Have you ever DM'ed a campaign before?</option>
-                <option value="Yes" onclick="toggle_playstyle(true)">Yes</option>
-                <option value="No" onclick="toggle_playstyle()">No</option>
+                <option id="dm_experience_yes" value="Yes">Yes</option>
+                <option id="dm_experience_no" value="No">No</option>
             </select>
         </div>
 
@@ -50,14 +50,14 @@
         </div>
 
         <div class="form-group">
-            <label for="time-group">Day and Time</label>
+            <label for="frequency">Day and Time</label>
             <div class="input-group" id="time-group">
-                <select name="frequency" class="custom-select" id="frequency" autocomplete="off" required>
-                    <option value="" selected onclick="toggle_date();">Frequency</option>
-                    <option value="Once (one-shot)" onclick="toggle_date(true);">One-shot</option>
-                    <option value="Once every week" onclick="toggle_date();">Every</option>
-                    <option value="Once every other week" onclick="toggle_date();">Every other</option>
-                    <option value="Once a month" onclick="toggle_date();">Once a month</option>
+                <select id="frequency" name="frequency" class="custom-select" id="frequency" autocomplete="off" required>
+                    <option value="" selected>Frequency</option>
+                    <option value="Once (one-shot)">One-shot</option>
+                    <option value="Once every week">Every</option>
+                    <option value="Once every other week">Every other</option>
+                    <option value="Once a month">Once a month</option>
                 </select>
                 <select name="day" class="custom-select" id="day" required>
                     <option value="" selected>Weekday</option>
@@ -82,7 +82,7 @@
         </div>
 
         <div class="form-group">
-            <label for="length_group">Session Length</label>
+            <label for="session_length_hours">Session Length</label>
             <div class="input-group" id="length_group">
                 <input name="session_length_hours" class="form-control" type="number" placeholder="Hours" required>
                 <div class="input-group-append">
@@ -99,11 +99,11 @@
             <label for="location">Location</label>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <select name="location" class="custom-select" id="location" autocomplete="off" required>
-                        <option value="" onclick="toggle_inperson();" selected>Where will sessions be held?</option>
-                        <option value="In-person" onclick="toggle_inperson(true);">In-Person</option>
-                        <option value="Virtually" onclick="toggle_inperson();">Virtually</option>
-                        <option value="Hybrid" onclick="toggle_inperson();">Hybrid</option>
+                    <select id="location" name="location" class="custom-select" id="location" autocomplete="off" required>
+                        <option value="" selected>Where will sessions be held?</option>
+                        <option value="In-person">In-Person</option>
+                        <option value="Virtually">Virtually</option>
+                        <option value="Hybrid">Hybrid</option>
                     </select>
                 </div>
                 <div id="after_location_inperson_div"></div>
@@ -112,13 +112,13 @@
         </div>
 
         <div class="form-group">
-            <label for="count_group">Player Count</label>
+            <label for="min_players">Player Count</label>
             <div class="input-group" id="count_group">
-                <input name="min_players" id="min_players" class="form-control" type="number" placeholder="Minimum players" required onkeyup="validate_min()" onblur="validate_min()">
+                <input name="min_players" id="min_players" class="form-control" type="number" placeholder="Minimum players" required onkeyup="validate_min(); validate_max();" onblur="validate_min(); validate_max();">
                 <div class="input-group-append">
                     <span class="input-group-text">to</span>
                 </div>
-                <input name="max_players" id="max_players" class="form-control" type="number" placeholder="Maximum players" required onkeyup="validate_max()" onblur="validate_max()">
+                <input name="max_players" id="max_players" class="form-control" type="number" placeholder="Maximum players" required onkeyup="validate_min(); validate_max();" onblur="validate_min(); validate_max();">
             </div>
         </div>
         
@@ -126,11 +126,11 @@
             <label for="system">System</label>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <select name="system" class="custom-select" id="system" required>
-                        <option value="" onclick="toggle_system_other();" selected>What system will your campaign be run using?</option>
-                        <option value="D&D 5e" onclick="toggle_system_other();">D&D 5e</option>
-                        <option value="Pathfinder 2e" onclick="toggle_system_other();">Pathfinder 2e</option>
-                        <option value="Other" onclick="toggle_system_other(true);">Other</option>
+                    <select id="system" name="system" class="custom-select" id="system" required>
+                        <option value="" selected>What system will your campaign be run using?</option>
+                        <option value="D&D 5e">D&D 5e</option>
+                        <option value="Pathfinder 2e">Pathfinder 2e</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
                 <div id="after_system_other"></div>
@@ -153,7 +153,7 @@
         </div>
 
         <button type="submit" class="btn btn-secondary">Submit</button>
-        <button class="btn btn-secondary" onclick="history.back()">Cancel</button>
+        <button id="back_button" class="btn btn-secondary">Cancel</button>
     </form>
 
 </div>
