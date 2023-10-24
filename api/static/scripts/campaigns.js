@@ -1,9 +1,61 @@
 let filtered = new Array();
 let curr_filters = new Map();
 
+let isSupported = CSS.supports('position', 'static');
+//isSupported = false; // set to false for testing
+
+let opened_dropdown = null;
+
+const options = {
+  attributes: true
+}
+
+let stored_element = null;
+let stored_parent = null;
+let observers = new Array();
+
+function callback(mutationList, observer) {
+  mutationList.forEach(function(mutation) {
+    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+      if (mutation.target.getAttribute('class').split(' ').includes("show")) {
+        if (mutation.target.parentElement != document.body) {
+            let curr = mutation.target;
+            curr.style = "position: absolute; z-index: 1000000000";
+            document.body.style = "overflow-x: clip; max-width: 100vw;";
+            stored_element = curr;
+            stored_parent = curr.parentElement;
+            curr.children[1].style.display = "none";
+            document.body.insertBefore(curr, document.body.firstElementChild);
+            window.scrollTo(10, 10);
+            var timer = null;
+            window.addEventListener('scroll', function() {
+                if(timer !== null) {
+                    clearTimeout(timer);        
+                }
+                timer = setTimeout(function() {
+                    window.scrollTo(0, 0);
+                }, 150);
+
+            }, { once: true });
+        }
+      } else {
+        if (stored_element == mutation.target) {
+            mutation.target.style = "";
+            mutation.target.children[1].style.display = "inline-flex";
+            stored_parent.appendChild(mutation.target);
+            console.log("Appended",mutation.target,"to",stored_parent);
+            stored_element = null;
+            stored_parent = null;
+            document.body.style = "";
+        }
+      }
+    }
+  })
+}
+
 window.addEventListener('load', function() {
     let filters = document.getElementsByClassName('filter-select');
-    for (let i = 0; i < filters.length; i++) {
+    for (let i = 0; i < filters.length; i++) { // for each filter
         let options = new Set([]);
         let id = filters[i].id;
         let elements = document.getElementsByClassName(id);
@@ -25,6 +77,15 @@ window.addEventListener('load', function() {
         }
     }
     $('select').selectpicker();
+
+    // add event listeners if unsupported position static
+    if (!isSupported) {
+        let elements = document.getElementsByClassName('bootstrap-select');
+        for (let i = 0; i < elements.length; i++) {
+            observers.push(new MutationObserver(callback));
+            observers[i].observe(elements[i], options)
+        }
+    }
 
     // expand button event listeners
     let expand_buttons = document.getElementsByClassName('expand_button');
@@ -96,16 +157,8 @@ function unfilter(element, id = null) {
         if (index !== -1) {
             filtered[i].splice(index, 1);
             if (filtered[i].length == 0) {
-                console.log("Brought back since length is 0");
-                console.log(elements[i].parentElement.parentElement);
                 elements[i].parentElement.parentElement.style = "";
             } else {
-                console.log("Didn't remove since length is > 0:",filtered[i]);
-            }
-        } else {
-            console.log("Could not find",id,"in",filtered[i]);
-            if (filtered[i].length > 0) {
-                console.log("^ Actually, filtered[i][0] is",filtered[i][0])
             }
         }
     }

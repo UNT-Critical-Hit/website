@@ -124,8 +124,9 @@ select:invalid, input:invalid {
 .table-responsive .dropdown,
 .table-responsive .btn-group,
 .table-responsive .btn-group-vertical {
-    position: static;
+    position: static !important;
 }
+
 
 .bootstrap-select .dropdown-menu {
     min-width: 100% !important;
