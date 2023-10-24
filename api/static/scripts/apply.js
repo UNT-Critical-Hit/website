@@ -1,12 +1,12 @@
-function toggle_email(on = False) {
-
+function toggle_email() {
     let email = document.getElementById('email');
     let append = document.getElementById('email_append');
     let addon = document.getElementById('email_addon');
     let help = document.getElementById('email_help');
+    let val = document.getElementById('unt_student').value;
 
     let new_style = "";
-    if (!on) {
+    if (val == "No") {
         if (email != null) {
             email.remove();
         }
@@ -32,3 +32,5 @@ function toggle_email(on = False) {
     help.style = new_style;
 
 }
+
+document.getElementById('unt_student').addEventListener('change', toggle_email);
