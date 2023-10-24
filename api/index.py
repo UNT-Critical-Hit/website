@@ -142,7 +142,7 @@ def post_create():
             return page_message(message = "An error has occurred while submitting your application.")
         submit_dm(request.form, user, db)
         header, message = get_create_message()
-        return page_message(header = header, message = header)
+        return page_message(header = header, message = message)
     else:
         return page_message(message = "You don't have permission to perform this action. " + reason)
 

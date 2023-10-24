@@ -25,6 +25,16 @@ window.addEventListener('load', function() {
         }
     }
     $('select').selectpicker();
+
+    // expand button event listeners
+    let expand_buttons = document.getElementsByClassName('expand_button');
+    for (let i = 0; i < expand_buttons.length; i++) {
+        expand_buttons[i].addEventListener('click', function(event) {
+            let element = event.target || event.srcElement;
+            expand(element);
+        });
+    }
+
 });
 
 function getSelectValues(select) { // https://stackoverflow.com/questions/5866169/how-to-get-all-selected-values-of-a-multiple-select-box
@@ -117,3 +127,4 @@ function expand(element) {
         element.parentElement.parentElement.setAttribute('class', 'card campaign-card');
     }
 }
+
