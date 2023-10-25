@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<header class="header-box">
+    <h1 class="text-center align-items-center justify-content-center"><strong>Campaigns</strong></h1>
+</header>
+<table class="table table-responsive">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Session Length</th>
+        <th>Dungeon Master</th>
+        <th>System</th>
+        <th>Location</th>
+        <th>Meeting Frequency</th>
+        <th>Meeting Day</th>
+        <th>Meeting Time</th>
+        <th>New Player Friendly</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+            <select id="Status" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="Session_Length" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="Dungeon_Master" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="System" class="filter-select selectpicker" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="Location" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="Meeting_Frequency" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="Meeting_Day" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="Meeting_Time" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        <td>
+            <select id="New_Player_Friendly" class="filter-select" autocomplete="off" multiple onchange="filter(this);" data-actions-box="true">
+            </select>
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+<button id="filters_button" class="btn btn-secondary w-100" type="button" style="display: none;">Filters aren't working?</button>
+
+<div id="alert_card" class="alert-card" style="display: none;">
+    <p>
+        The filter view has been updated, so you should be able to select filters now. If you 
+        are still have problems, please report the bug <a href="https://forms.gle/ewjfqKpEy7jG5oSa9">here</a>.
+    </p>
+    <button id="close_card" class="btn btn-primary">Close</button>
+</div>
+
+<div class="centered-content">
+    
+    {% for campaign in campaigns %}
+        <div class="card campaign-card">
+            <h2 class="card-header text-center">{{campaign.name}}</h2>
+            <div class="card-body">
+                <a class="btn btn-secondary float-right expand_button">Expand</a>
+                <h5 class="card-title">Information</h5>
+                <p class="mb-1 Status">Status: {% if campaign.is_over() %}Completed (one-shot){% elif campaign.locked == 1 %}Locked{% elif campaign.current_players >= campaign.max_players %}Full{% else %}Open{% endif %}</p>
+                <p class="mb-1">Seats: {{campaign.current_players}}/{{campaign.max_players}}</p>
+                <p class="mb-1">Date Created: {{campaign.date_created.strftime('%Y-%m-%d')}}</p>
+                <p class="mb-1 Dungeon_Master">Dungeon Master: {{campaign.get_name()}} (@{{campaign.dm_username}})</p>
+                <p class="mb-1 Location">Location: {{campaign.location}}</p>
+                <p class="mb-1 Playstyle">Playstyle: {{campaign.playstyle}}</p>
+                <p class="mb-1 Session_Length">Session Length: {{campaign.session_length}}</p>
+                {% if campaign.meeting_date %}
+                    <p class="mb-1 Meeting_Frequency">Meeting Frequency: Once (one-shot)</p>
+                    <p class="mb-1 Meeting_Day">Meeting Day: {{campaign.get_weekday()}}</p>
+                    <p class="mb-1 Meeting_Date">Meeting Date: {{campaign.meeting_date}}</p>
+                {% else %}
+                    <p class="mb-1 Meeting_Frequency">Meeting Frequency: {{campaign.meeting_frequency}}</p>
+                    <p class="mb-1 Meeting_Day">Meeting Day: {{campaign.meeting_day}}</p>
+                {% endif %}
+                <p class="mb-1 Meeting_Time">Meeting Time: {{campaign.meeting_time}}</p>
+                <p class="mb-1 System">System: {{campaign.system}}</p>
+                <p class="mb-1 New_Player_Friendly">New Player Friendly: {{campaign.new_player_friendly}}</p>
+                
+                <h5 class="card-title mt-5">Description</h5>
+                <p class="campaign-desc">{{campaign.info_message}}</p>
+                <!-- IF IN CAMPAIGN, SHOW LEAVE BUTTON INSTEAD -->
+                {% if not campaign.locked and not campaign.is_over() %}
+                    {% if campaign.current_players < campaign.max_players %}
+                        <a class="btn btn-primary" href="{{ url_for('page_apply', campaign_id=campaign.id) }}">Apply to Join</a>
+                    {% else %}
+                        <a class="btn btn-tertiary" href="{{ url_for('page_apply', campaign_id=campaign.id) }}">Apply for Waitlist</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+<script src="{{ url_for('static', filename='scripts/campaigns.js') }}"></script>
+<style id="extra_support"></style>
+
+{% endblock content %}
