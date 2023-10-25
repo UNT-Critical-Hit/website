@@ -156,3 +156,7 @@ select:invalid, input:invalid {
     text-align: center;
     z-index: 10;
 }
+
+.sticky-top {
+    z-index: 1000 !important;
+}
