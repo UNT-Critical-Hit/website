@@ -61,6 +61,16 @@
     </tbody>
   </table>
 
+<button id="filters_button" class="btn btn-secondary w-100" type="button" style="display: none;">Filters aren't working</button>
+
+<div id="alert_card" class="alert-card" style="display: none;">
+    <p>
+        The filter view has been updated, so you should be able to select filters now. If you 
+        are still have problems, please report the bug <a href="https://forms.gle/ewjfqKpEy7jG5oSa9">here</a>.
+    </p>
+    <button id="close_card" class="btn btn-primary">Close</button>
+</div>
+
 <div class="centered-content">
     
     {% for campaign in campaigns %}
