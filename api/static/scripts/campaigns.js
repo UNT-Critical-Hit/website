@@ -1,7 +1,8 @@
 let filtered = new Array();
 let curr_filters = new Map();
 
-let isSupported = CSS.supports('position', 'static');
+let isSupported = CSS.supports('position', 'fixed');
+console.log(isSupported);
 //isSupported = false; // set to false for testing
 
 let opened_dropdown = null;
