@@ -141,3 +141,18 @@ select:invalid, input:invalid {
 .message {
     max-width: 800px;
 }
+
+.alert-card {
+    border: 1px solid black;
+    box-shadow: 2px 2px 2px black;
+    padding: 1rem;
+    max-width: 85vw;
+    color: black;
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+}

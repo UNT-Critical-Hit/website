@@ -1,8 +1,41 @@
 let filtered = new Array();
 let curr_filters = new Map();
 
-let isSupported = CSS.supports('position', 'fixed');
-console.log(isSupported);
+function detectMobile() { // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+    
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+}
+
+let stored_element = null;
+let stored_parent = null;
+let observers = new Array();
+
+document.getElementById('filters_button').addEventListener('click', function() {
+    // add event listeners if unsupported position static
+    let alert_card = document.getElementById('alert_card');
+    alert_card.style.display = "";
+    let elements = document.getElementsByClassName('bootstrap-select');
+    for (let i = 0; i < elements.length; i++) {
+        observers.push(new MutationObserver(callback));
+        observers[i].observe(elements[i], options)
+    }
+    document.getElementById('close_card').addEventListener('click', function() {
+        alert_card.remove();
+    });
+    document.getElementById('filters_button').remove();
+});
+
 //isSupported = false; // set to false for testing
 
 let opened_dropdown = null;
@@ -10,10 +43,6 @@ let opened_dropdown = null;
 const options = {
   attributes: true
 }
-
-let stored_element = null;
-let stored_parent = null;
-let observers = new Array();
 
 function callback(mutationList, observer) {
   mutationList.forEach(function(mutation) {
@@ -55,6 +84,11 @@ function callback(mutationList, observer) {
 }
 
 window.addEventListener('load', function() {
+    // mobile browser
+    if (detectMobile()) {
+        document.getElementById('filters_button').style.display = "";
+    }
+
     let filters = document.getElementsByClassName('filter-select');
     for (let i = 0; i < filters.length; i++) { // for each filter
         let options = new Set([]);
@@ -78,15 +112,6 @@ window.addEventListener('load', function() {
         }
     }
     $('select').selectpicker();
-
-    // add event listeners if unsupported position static
-    if (!isSupported) {
-        let elements = document.getElementsByClassName('bootstrap-select');
-        for (let i = 0; i < elements.length; i++) {
-            observers.push(new MutationObserver(callback));
-            observers[i].observe(elements[i], options)
-        }
-    }
 
     // expand button event listeners
     let expand_buttons = document.getElementsByClassName('expand_button');
