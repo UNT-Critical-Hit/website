@@ -19,7 +19,7 @@ def submit_report(db, function, error, user = None):
         contents = {
             'timestamp': datetime.now(),
             'user_id': user.id,
-            'user_name': user.name,
+            'user_name': user.username,
             'function': function,
             'error': error
         }
