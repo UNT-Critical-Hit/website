@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect
 from firebase_admin import credentials, firestore, initialize_app
 from _utils.officers import parse_data
 from zenora import APIClient
+import zenora.exceptions
 from _utils.config import TOKEN, CLIENT_SECRET
 from _utils.discord import get_campaigns, get_campaign, get_user
 from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
@@ -22,16 +23,23 @@ db = firestore.client()
 
 def get_current_user():
     if 'token' in session:
-        bearer_client = APIClient(session.get('token'), bearer=True)
+        try:
+            bearer_client = APIClient(session.get('token'), bearer=True)
+        except zenora.exceptions.BadTokenError:
+            submit_report(db, "get_current_user", "zenora.exceptions.BadTokenError: Invalid token has been passed")
+            return False, render_template('message.html', current_user=None, header="Oh no!", message="Your token has expired. Please log in again.")
         user = bearer_client.users.get_current_user()
         logged_in(user.id, db)
-        return user
+        return True, user
     else:
-        return None
+        return True, None
 
 # PAGES
 def page(template, kargs = {}): # used to not have to include all of the default parameters
-    return render_template(template, current_user=get_current_user(), **kargs)
+    res, current_user = get_current_user()
+    if not res:
+        return current_user
+    return render_template(template, current_user=current_user, **kargs)
 
 @app.route('/')
 def page_index():
@@ -66,7 +74,10 @@ def callback():
 
 @app.route("/campaigns/")
 def page_campaigns():
-    campaigns, error = get_campaigns(db, get_current_user())
+    res, current_user = get_current_user()
+    if not res:
+        return current_user
+    campaigns, error = get_campaigns(db, current_user)
     if not campaigns:
         return page_message(error)
 
@@ -74,7 +85,9 @@ def page_campaigns():
 
 @app.route("/apply/<campaign_id>")
 def page_apply(campaign_id):
-    current_user = get_current_user()
+    res, current_user = get_current_user()
+    if not res:
+        return current_user
     if not current_user:
         session['url'] = "/apply/" + str(campaign_id)
         return redirect('/login/')
@@ -92,7 +105,9 @@ def page_apply(campaign_id):
     
 @app.route("/apply/<campaign_id>", methods=["POST"])
 def post_apply(campaign_id):
-    current_user = get_current_user()
+    res, current_user = get_current_user()
+    if not res:
+        return current_user
     if not current_user:
         session['url'] = "/apply/" + str(campaign_id)
         return redirect('/login/')
@@ -114,7 +129,9 @@ def post_apply(campaign_id):
     
 @app.route("/create/")
 def page_create():
-    current_user = get_current_user()
+    res, current_user = get_current_user()
+    if not res:
+        return current_user
     if not current_user:
         session['url'] = "/create/"
         return redirect('/login/')
@@ -129,7 +146,9 @@ def page_create():
     
 @app.route("/create/", methods=["POST"])
 def post_create():
-    current_user = get_current_user()
+    res, current_user = get_current_user()
+    if not res:
+        return current_user
     if not current_user:
         session['url'] = "/create/"
         return redirect('/login/')
