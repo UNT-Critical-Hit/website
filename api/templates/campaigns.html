@@ -74,7 +74,7 @@
 <div class="centered-content">
     
     {% for campaign in campaigns %}
-        <div class="card campaign-card">
+        <div class="card campaign-card" id="{{campaign.id}}">
             <h2 class="card-header text-center">{{campaign.name}}</h2>
             <div class="card-body">
                 <a class="btn btn-secondary float-right expand_button">Expand</a>
