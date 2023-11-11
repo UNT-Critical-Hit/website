@@ -39,6 +39,10 @@ def get_campaign(id, db, user):
     except ConnectTimeout:
         submit_report(db, "get_campaign", "Connection to the bot timed out", user)
         return None, "Connection to the bot timed out. Please inform an officer that the bot is down."
+    if resp.status_code != 200:
+        print("Status code:",resp.status_code)
+        submit_report(db, "get_campaign", "Bot returned nothing for campaign " + str(id), user)
+        return None, "Campaign not found. Please ensure that you are applying for a valid campaign."
     return generate_struct(json.loads(resp.json()), Campaign), None
 
 def get_user(id, db, user):
