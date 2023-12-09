@@ -81,7 +81,7 @@
                 <h5 class="card-title">Information</h5>
                 <p class="mb-1 Status">Status: {% if campaign.is_over() %}Completed (one-shot){% elif campaign.locked == 1 %}Locked{% elif campaign.current_players >= campaign.max_players %}Full{% else %}Open{% endif %}</p>
                 <p class="mb-1">Seats: {{campaign.current_players}}/{{campaign.max_players}}</p>
-                <p class="mb-1">Date Created: {{campaign.date_created.strftime('%Y-%m-%d')}}</p>
+                <p class="mb-1">Date Created: {{campaign.get_date_created().strftime('%Y-%m-%d')}}</p>
                 <p class="mb-1 Dungeon_Master">Dungeon Master: {{campaign.get_name()}} (@{{campaign.dm_username}})</p>
                 <p class="mb-1 Location">Location: {{campaign.location}}</p>
                 <p class="mb-1 Playstyle">Playstyle: {{campaign.playstyle}}</p>

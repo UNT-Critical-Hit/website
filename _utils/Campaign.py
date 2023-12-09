@@ -81,3 +81,8 @@ class Campaign:
             return True
         else:
             return False
+        
+    def get_date_created(self):
+        if type(self.date_created) == int:
+            return datetime.fromtimestamp(self.date_created)
+        return self.date_created
