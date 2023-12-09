@@ -73,7 +73,7 @@ function toggle_system_other() {
             newElement.placeholder = "Other...";
             newElement.ariaLabel = "Other";
             newElement.setAttribute('aria-describedby','other_append');
-            newElement.pattern = "^([0-z]|-|&| )+$";
+            newElement.pattern = "^([0-z]|-|&| |')+$";
             newElement.required = true;
             let next = document.getElementById('after_system_other');
             next.parentElement.insertBefore(newElement, next);
