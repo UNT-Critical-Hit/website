@@ -94,7 +94,7 @@
                     <p class="mb-1 Meeting_Frequency">Meeting Frequency: {{campaign.meeting_frequency}}</p>
                     <p class="mb-1 Meeting_Day">Meeting Day: {{campaign.meeting_day}}</p>
                 {% endif %}
-                <p class="mb-1 Meeting_Time">Meeting Time: {{campaign.meeting_time}}</p>
+                <p class="mb-1 Meeting_Time">Meeting Time: {{campaign.get_meeting_time()}}</p>
                 <p class="mb-1 System">System: {{campaign.system}}</p>
                 <p class="mb-1 New_Player_Friendly">New Player Friendly: {{campaign.new_player_friendly}}</p>
                 

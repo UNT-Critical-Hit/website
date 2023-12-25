@@ -10,6 +10,7 @@ from _utils.db import logged_in, submit_report
 from _utils.messages import get_apply_message, get_create_message
 from urllib import parse
 from markupsafe import Markup
+from _utils.misc import get_campaign_by_id
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -45,6 +46,34 @@ def page(template, kargs = {}): # used to not have to include all of the default
 def page_index():
     return page('home.html')
 
+@app.route('/user_dashboard/')
+def page_user_dashboard():
+    if 'username' in session:
+        res, current_user = get_current_user()
+        if not res:
+            session['url'] = '/user_dashboard/'
+            redirect('/login/')
+        user, error = get_user(current_user.id, db, current_user)
+        if not user:
+            return page_message(error)
+        campaigns, error = get_campaigns(db, current_user)
+        if error:
+            return page_message(error)
+        campaigns_player = []
+        for campaign_id in user.campaigns_player:
+            curr = get_campaign_by_id(campaigns, campaign_id)
+            if curr:
+                campaigns_player.append(curr)
+        campaigns_dm = []
+        for campaign_id in user.campaigns_dm:
+            curr = get_campaign_by_id(campaigns, campaign_id)
+            if curr:
+                campaigns_dm.append(curr)
+        return page('user_dashboard.html', {'user_campaigns': campaigns_player, 'dm_campaigns': campaigns_dm})
+    else:
+        session['url'] = '/user_dashboard/'
+        return redirect('/login/')
+
 @app.route("/login/")
 def page_login():
     redirect_uri = request.base_url.replace('login/','oauth/callback')
@@ -67,6 +96,10 @@ def callback():
     access_token = client.oauth.get_access_token(code, redirect_uri).access_token
     
     session['token'] = access_token
+    print(get_current_user())
+    res, current_user = get_current_user()
+    if res:
+        session['username'] = current_user.username
     if 'url' in session:
         return redirect(session['url'])
 
