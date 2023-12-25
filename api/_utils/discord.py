@@ -33,7 +33,7 @@ def generate_struct(dict_: dict, cls: type):
         setattr(obj, key, value)
     return obj
 
-def get_campaign(id, db, user):
+def get_campaign(id, db, user = None):
     try:
         resp = requests.get("https://api.midnight.wtf/campaigns/"+str(id)+"?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a")
     except ConnectTimeout:

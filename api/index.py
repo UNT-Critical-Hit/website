@@ -45,6 +45,17 @@ def page(template, kargs = {}): # used to not have to include all of the default
 def page_index():
     return page('home.html')
 
+@app.route('/user_dashboard/')
+def page_user_dashboard():
+    if 'username' in session:
+        campaign, error = get_campaign(150, db)
+        if not campaign:
+            return page_message(error)
+        return page('user_dashboard.html', {'campaign': campaign})
+    else:
+        session['url'] = '/user_dashboard/'
+        return redirect('/login/')
+
 @app.route("/login/")
 def page_login():
     redirect_uri = request.base_url.replace('login/','oauth/callback')
@@ -67,6 +78,10 @@ def callback():
     access_token = client.oauth.get_access_token(code, redirect_uri).access_token
     
     session['token'] = access_token
+    print(get_current_user())
+    res, current_user = get_current_user()
+    if res:
+        session['username'] = current_user.username
     if 'url' in session:
         return redirect(session['url'])
 
