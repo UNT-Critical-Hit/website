@@ -10,6 +10,7 @@ from _utils.db import logged_in, submit_report
 from _utils.messages import get_apply_message, get_create_message
 from urllib import parse
 from markupsafe import Markup
+from _utils.misc import get_campaign_by_id
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -48,10 +49,27 @@ def page_index():
 @app.route('/user_dashboard/')
 def page_user_dashboard():
     if 'username' in session:
-        campaign, error = get_campaign(150, db)
-        if not campaign:
+        res, current_user = get_current_user()
+        if not res:
+            session['url'] = '/user_dashboard/'
+            redirect('/login/')
+        user, error = get_user(current_user.id, db, current_user)
+        if not user:
             return page_message(error)
-        return page('user_dashboard.html', {'campaign': campaign})
+        campaigns, error = get_campaigns(db, current_user)
+        if error:
+            return page_message(error)
+        campaigns_player = []
+        for campaign_id in user.campaigns_player:
+            curr = get_campaign_by_id(campaigns, campaign_id)
+            if curr:
+                campaigns_player.append(curr)
+        campaigns_dm = []
+        for campaign_id in user.campaigns_dm:
+            curr = get_campaign_by_id(campaigns, campaign_id)
+            if curr:
+                campaigns_dm.append(curr)
+        return page('user_dashboard.html', {'user_campaigns': campaigns_player, 'dm_campaigns': campaigns_dm})
     else:
         session['url'] = '/user_dashboard/'
         return redirect('/login/')
