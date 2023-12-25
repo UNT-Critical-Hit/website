@@ -86,3 +86,17 @@ class Campaign:
         if type(self.date_created) == int:
             return datetime.fromtimestamp(self.date_created)
         return self.date_created
+    
+    def get_meeting_time(self):
+        if not self.meeting_time:
+            return None
+        if "M" in self.meeting_time: # already fixed
+            return self.meeting_time
+        meeting_time = self.meeting_time.split(':')
+        time = "AM"
+        hour = int(meeting_time[0])
+        minute = meeting_time[1]
+        if hour > 12:
+            hour -= 12
+            time = "PM"
+        return str(hour) + ":" + minute + " " + time

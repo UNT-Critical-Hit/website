@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="centered-content">
+
+    <div class="py-4 py-xl-5 m-3">
+        <h2 class="text-center">Your Campaigns</h2>
+        <div class="card campaign-card" id="{{campaign.id}}">
+            <h2 class="card-header text-center">{{campaign.name}}</h2>
+            <div class="card-body">
+                <h5 class="card-title">Information</h5>
+                <p class="mb-1">Date Created: {{campaign.get_date_created().strftime('%Y-%m-%d')}}</p>
+                <p class="mb-1 Dungeon_Master">Dungeon Master: {{campaign.get_name()}} (@{{campaign.dm_username}})</p>
+                <p class="mb-1 Location">Location: {{campaign.location}}</p>
+                <p class="mb-1 Session_Length">Session Length: {{campaign.session_length}}</p>
+                {% if campaign.meeting_date %}
+                    <p class="mb-1 Meeting_Frequency">Meeting Frequency: Once (one-shot)</p>
+                    <p class="mb-1 Meeting_Day">Meeting Day: {{campaign.get_weekday()}}</p>
+                    <p class="mb-1 Meeting_Date">Meeting Date: {{campaign.meeting_date}}</p>
+                {% else %}
+                    <p class="mb-1 Meeting_Frequency">Meeting Frequency: {{campaign.meeting_frequency}}</p>
+                    <p class="mb-1 Meeting_Day">Meeting Day: {{campaign.meeting_day}}</p>
+                {% endif %}
+                <p class="mb-1 Meeting_Time">Meeting Time: {{campaign.get_meeting_time()}}</p>
+                <p class="mb-1 System">System: {{campaign.system}}</p>
+                
+                <h5 class="card-title mt-5">Description</h5>
+                <p class="campaign-desc">{{campaign.info_message}}</p>
+                <a class="btn btn-primary" href="">Leave</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
