@@ -4,7 +4,7 @@ from _utils.officers import parse_data
 from zenora import APIClient
 import zenora.exceptions
 from _utils.config import TOKEN, CLIENT_SECRET
-from _utils.discord import get_campaigns, get_campaign, get_user
+from _utils.discord import get_campaigns, get_campaign, get_user, get_campaigns_by_id
 from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
 from _utils.db import logged_in, submit_report
 from _utils.messages import get_apply_message, get_create_message
@@ -46,6 +46,21 @@ def page(template, kargs = {}): # used to not have to include all of the default
 def page_index():
     return page('home.html')
 
+@app.route('/user_profile/')
+def page_user_profile():
+    if 'username' in session:
+        res, current_user = get_current_user()
+        if not res:
+            session['url'] = '/user_profile/'
+            redirect('/login/')
+        user, error = get_user(current_user.id, db, current_user)
+        if error:
+            return page_message(error)
+        return page('user_profile.html', {'user': user})
+    else:
+        session['url'] = '/user_profile/'
+        return redirect('/login/')
+
 @app.route('/user_dashboard/')
 def page_user_dashboard():
     if 'username' in session:
@@ -56,19 +71,12 @@ def page_user_dashboard():
         user, error = get_user(current_user.id, db, current_user)
         if not user:
             return page_message(error)
-        campaigns, error = get_campaigns(db, current_user)
+        campaigns_player, error = get_campaigns_by_id(db, current_user, user.campaigns_player)
         if error:
             return page_message(error)
-        campaigns_player = []
-        for campaign_id in user.campaigns_player:
-            curr = get_campaign_by_id(campaigns, campaign_id)
-            if curr:
-                campaigns_player.append(curr)
-        campaigns_dm = []
-        for campaign_id in user.campaigns_dm:
-            curr = get_campaign_by_id(campaigns, campaign_id)
-            if curr:
-                campaigns_dm.append(curr)
+        campaigns_dm, error = get_campaigns_by_id(db, current_user, user.campaigns_dm)
+        if error:
+            return page_message(error)
         return page('user_dashboard.html', {'user_campaigns': campaigns_player, 'dm_campaigns': campaigns_dm})
     else:
         session['url'] = '/user_dashboard/'
