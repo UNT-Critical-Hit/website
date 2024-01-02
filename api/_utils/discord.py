@@ -5,6 +5,19 @@ from _utils.User import User
 from requests import ConnectTimeout
 from _utils.db import submit_report
 
+def get_campaigns_by_id(db, user, ids):
+    try:
+        resp = requests.get("https://api.midnight.wtf/campaigns/getmany/" + str(ids) + "?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a")
+    except ConnectTimeout:
+        submit_report(db, "get_campaigns_by_id", "Connection to the bot timed out", user)
+        return None, "Connection to the bot timed out. Please inform an officer that the bot is down."
+    try:
+        campaigns = [generate_struct(campaign, Campaign) for campaign in json.loads(resp.json())]
+    except requests.exceptions.JSONDecodeError:
+        submit_report(db, "get_campaigns", "The bot returned nothing", user)
+        return None, "Connection to the bot timed out. Please inform an officer that the bot is down."
+    return campaigns, None
+
 def get_campaigns(db, user):
     try:
         resp = requests.get("https://api.midnight.wtf/campaigns?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a")
