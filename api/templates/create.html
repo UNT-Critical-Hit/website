@@ -27,6 +27,15 @@
         </div>
 
         <div class="form-group">
+            <label for="qualification">Qualification</label>
+            <small class="form-text text-muted">To DM through the club, you must either be a current UNT student or have DM'ed for the club in the past.</small>
+            <select id="qualification" name="qualification" class="custom-select" required autocomplete="off">
+                <option value="" selected>Do you meet at least one of the above qualifications?</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="dm_experience">DM Experience</label>
             <select id="dm_experience" name="dm_experience" class="custom-select" id="dm-experience" required autocomplete="off">
                 <option value="" selected>Have you ever DM'ed a campaign before?</option>
