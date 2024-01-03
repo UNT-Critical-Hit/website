@@ -16,10 +16,15 @@ def submit_report(db, function, error, user = None):
     id = len(list(db.collection('reports').list_documents()))
     doc = db.collection('reports').document(str(id))
     if user:
+        username = ""
+        if user.username:
+            username = user.username
+        else:
+            username = user.name
         contents = {
             'timestamp': datetime.now(),
             'user_id': user.id,
-            'user_name': user.username,
+            'user_name': username,
             'function': function,
             'error': error
         }

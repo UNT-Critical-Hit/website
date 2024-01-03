@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<div id="alert_card" class="alert-card" style="display: none;">
+    <p id="alert_card_message">{{message}}</p>
+    <button id="close_card" class="btn btn-primary">Close</button>
+</div>
+
 <div class="centered-content">
 
     <form style="padding: 20px;" action="{{ url_for('page_user_profile') }}" method="post">
