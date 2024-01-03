@@ -83,13 +83,19 @@ def submit_dm(submission, user, db):
     else:
         session_length = submission['session_length_hours'] + " hours and " + submission['session_length_minutes'] + " minutes"
 
+    unt_email = user.unt_email
+    if not unt_email:
+        unt_email = "N/A"
+    else:
+        unt_email += "@my.unt.edu"
+
     data = {
     "entry.199046626": submission['campaign_name'], # campaign title
     "entry.921050634": submission['name_first'], # first name
     "entry.953372418": submission['name_last'], # last name
     "entry.723836057": user.name, # discord username
     "entry.557094337": user.id, # discord id
-    "entry.1040133704": submission['unt_email'] + "@my.unt.edu", # unt email
+    "entry.1040133704": unt_email, # unt email
     "entry.164145856": submission['dm_experience'], # dm experience
     "entry.1654576497": submission['frequency'], # frequency
     "entry.233268853": day, # day

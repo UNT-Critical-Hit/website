@@ -9,8 +9,8 @@
         <div class="form-group">
             <label for="name_first">Full Name</label>
             <div class="input-group">
-                <input disabled name="name_first" value="{{user.first_name}}" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
-                <input disabled name="name_last" value="{{user.last_name}}" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input readonly name="name_first" value="{{user.first_name}}" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input readonly name="name_last" value="{{user.last_name}}" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
             </div>
             <small class="form-text text-muted">To update your name, edit your <a href="{{ url_for('page_user_profile') }}">user profile</a>.</small>
         </div>
@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="unt_email">UNT Email Address</label>
             <div class="input-group mb-3">
-                <input disabled name="unt_email" value="{{user.unt_email}}" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="email_addon" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$" autocomplete="on" required>
+                <input readonly name="unt_email" value="{{user.unt_email}}" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="email_addon" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$" autocomplete="on" required>
                 <div id="email_append" class="input-group-append">
                     <span id="email_addon" class="input-group-text">@my.unt.edu</span>
                 </div>

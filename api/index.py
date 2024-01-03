@@ -138,7 +138,7 @@ def page_apply(campaign_id):
     
     # check if profile is filled out
     if not user.first_name:
-        return page('user_profile.html', {'message': 'Please fill out your user profile before applying for a campaign.'})
+        return page('user_profile.html', {'user': user, 'message': 'Please fill out your user profile before applying for a campaign.'})
 
     reason = user.can_join()
     if not reason:
@@ -187,7 +187,7 @@ def page_create():
     
     # check if profile is filled out
     if not user.first_name:
-        return page('user_profile.html', {'message': 'Please fill out your user profile before creating a campaign.'})
+        return page('user_profile.html', {'user': user, 'message': 'Please fill out your user profile before creating a campaign.'})
 
     reason = user.can_create(db)
     if not reason:
