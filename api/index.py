@@ -229,6 +229,8 @@ def post_user_profile():
         user, error = get_user(current_user.id, db, current_user)
         if error:
             return page_message(error)
+        
+        # get info from submission
         submission = request.form
         user.id = current_user.id
         user.first_name = submission['name_first']
@@ -239,12 +241,12 @@ def post_user_profile():
         else:
             user.unt_student = False
             user.unt_email = ""
-        print(user)
+
         if update_user(user.id, db, user): # if successfully posted
             if session['url']:
                 temp = session['url']
                 session['url'] = None
-                redirect(session['url'])
+                redirect(temp)
             return page('user_profile.html', {'user': user, 'message': 'Your user profile has been updated.'})
         else:
             return page_message(message = "Something went wrong while trying to update your user profile.")
