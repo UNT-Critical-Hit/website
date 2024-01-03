@@ -15,16 +15,16 @@
             <small class="form-text text-muted">To update your name, edit your <a href="{{ url_for('page_user_profile') }}">user profile</a>.</small>
         </div>
 
-        <input id="user_unt_student" type="hidden" value="{{user.unt_student}}">
+        <input id="user_unt_student" name="unt_student" type="hidden" value="{{user.unt_student}}">
 
         <div class="form-group">
             <label for="email">UNT Email Address</label>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <select readonly id="unt_student" name="unt_student" required class="custom-select" id="inputGroupSelect01" placeholder="Are you a UNT student?" autocomplete="off">
-                        <option readonly value="" selected>Are you a UNT student?</option>
-                        <option readonly id="unt_student_yes" value="Yes" onclick="toggle_email(true);">Yes</option>
-                        <option readonly id="unt_student_no" value="No" onclick="toggle_email(false);">No</option>
+                    <select disabled id="disabled_unt_student" name="disabled_unt_student" required class="custom-select" id="inputGroupSelect01" placeholder="Are you a UNT student?" autocomplete="off">
+                        <option value="" selected>Are you a UNT student?</option>
+                        <option id="unt_student_yes" value="Yes" onclick="toggle_email(true);">Yes</option>
+                        <option id="unt_student_no" value="No" onclick="toggle_email(false);">No</option>
                     </select>
                 </div>
                 <input readonly name="unt_email" value="{{user.unt_email}}" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="basic-addon2" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$">
