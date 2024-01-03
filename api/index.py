@@ -138,7 +138,6 @@ def page_apply(campaign_id):
     
     # check if profile is filled out
     if not user.first_name:
-        session['url'] = '/apply/' + str(campaign_id)
         return page('user_profile.html', {'message': 'Please fill out your user profile before applying for a campaign.'})
 
     reason = user.can_join()
@@ -188,8 +187,7 @@ def page_create():
     
     # check if profile is filled out
     if not user.first_name:
-        session['url'] = '/create/'
-        return page('user_profile.html', {'message': 'Please fill out your user profile before applying for a campaign.'})
+        return page('user_profile.html', {'message': 'Please fill out your user profile before creating a campaign.'})
 
     reason = user.can_create(db)
     if not reason:
@@ -243,10 +241,6 @@ def post_user_profile():
             user.unt_email = ""
 
         if update_user(user.id, db, user): # if successfully posted
-            if session['url']:
-                temp = session['url']
-                session['url'] = None
-                redirect(temp)
             return page('user_profile.html', {'user': user, 'message': 'Your user profile has been updated.'})
         else:
             return page_message(message = "Something went wrong while trying to update your user profile.")
@@ -264,7 +258,7 @@ def page_officers():
     data = f.read()
     f.close()
     officers = parse_data(data)
-    return page('officers.html', {'officers':officers})
+    return page('officers.html', {'officers': officers})
 
 # TESTING
 #'''
