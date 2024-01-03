@@ -4,25 +4,26 @@
 <div class="centered-content">
 
     <form style="padding: 20px;" action="{{ url_for('page_create') }}" method="post">
-        <h2 class="text-center border-bottom```````````````````````">New Campaign Application</h5>
+        <h2 class="text-center border-bottom">New Campaign Application</h5>
         <h5>DM Information</h2>
         <div class="form-group">
             <label for="name_first">Full Name</label>
             <div class="input-group">
-                <input name="name_first" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
-                <input name="name_last" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input disabled name="name_first" value="{{user.first_name}}" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input disabled name="name_last" value="{{user.last_name}}" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
             </div>
+            <small class="form-text text-muted">To update your name, edit your <a href="{{ url_for('page_user_profile') }}">user profile</a>.</small>
         </div>
 
         <div class="form-group">
             <label for="unt_email">UNT Email Address</label>
             <div class="input-group mb-3">
-                <input name="unt_email" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="email_addon" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$" autocomplete="on" required>
+                <input disabled name="unt_email" value="{{user.unt_email}}" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="email_addon" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$" autocomplete="on" required>
                 <div id="email_append" class="input-group-append">
                     <span id="email_addon" class="input-group-text">@my.unt.edu</span>
                 </div>
             </div>
-            <small id="email_help" class="form-text text-muted">Only officers will have access to your email.</small>
+            <small id="email_help" class="form-text text-muted">To update your UNT email, edit your <a href="{{ url_for('page_user_profile') }}">user profile</a>.</small>
         </div>
 
         <div class="form-group">
@@ -159,6 +160,7 @@
 
 </div>
 
+<script src="{{ url_for('static', filename='scripts/user_profile.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/create.js') }}"></script>
 
 {% endblock content %}

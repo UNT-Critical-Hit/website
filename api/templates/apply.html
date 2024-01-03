@@ -9,27 +9,30 @@
         <div class="form-group">
             <label for="name">Full Name</label>
             <div class="input-group">
-                <input name="name_first" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
-                <input name="name_last" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input disabled value="{{user.first_name}}" name="name_first" type="text" class="form-control" placeholder="First Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input disabled value="{{user.last_name}}" name="name_last" type="text" class="form-control" placeholder="Last Name" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
             </div>
+            <small class="form-text text-muted">To update your name, edit your <a href="{{ url_for('page_user_profile') }}">user profile</a>.</small>
         </div>
+
+        <input id="user_unt_student" type="hidden" value="{{user.unt_student}}">
 
         <div class="form-group">
             <label for="email">UNT Email Address</label>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <select id="unt_student" name="unt_student" required class="custom-select" id="inputGroupSelect01" placeholder="Are you a UNT student?" autocomplete="off">
+                    <select disabled id="unt_student" name="unt_student" required class="custom-select" id="inputGroupSelect01" placeholder="Are you a UNT student?" autocomplete="off">
                         <option value="" selected>Are you a UNT student?</option>
-                        <option value="Yes" onclick="toggle_email(true);">Yes</option>
-                        <option value="No" onclick="toggle_email(false);">No</option>
+                        <option id="unt_student_yes" value="Yes" onclick="toggle_email(true);">Yes</option>
+                        <option id="unt_student_no" value="No" onclick="toggle_email(false);">No</option>
                     </select>
                 </div>
-                <input name="unt_email" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="basic-addon2" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$">
+                <input disabled name="unt_email" value="{{user.unt_email}}" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="basic-addon2" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$">
                 <div id="email_append" class="input-group-append">
                     <span id="email_addon" class="input-group-text" id="basic-addon2">@my.unt.edu</span>
                 </div>
             </div>
-            <small id="email_help" class="form-text text-muted">Only officers will have access to your email.</small>
+            <small id="email_help" class="form-text text-muted">To update your UNT email, edit your <a href="{{ url_for('page_user_profile') }}">user profile</a>.</small>
         </div>
 
         <div class="form-group">
@@ -81,6 +84,7 @@
 
 </div>
 
+<script src="{{ url_for('static', filename='scripts/user_profile.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/apply.js') }}"></script>
 
 {% endblock content %}

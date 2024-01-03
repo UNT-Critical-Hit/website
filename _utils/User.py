@@ -23,13 +23,14 @@ class User():
     :param campaigns_dm: List of campaigns the user is a DM in
     """
 
-    first_name = ""
-    last_name = ""
-    unt_student = None
-    unt_email = ""
+    first_name: str = ""
+    last_name: str = ""
+    unt_student: bool = True
+    unt_email: str = ""
 
     id: int = 0
     name: str = ""
+    username: str = name
     discriminator: str = ""
     nickname: str = ""
     officer: bool = False
