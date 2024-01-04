@@ -4,7 +4,7 @@ from _utils.officers import parse_data
 from zenora import APIClient
 import zenora.exceptions
 from _utils.config import TOKEN, CLIENT_SECRET
-from _utils.discord import get_campaigns, get_campaign, get_user
+from _utils.discord import get_campaigns, get_campaign, get_user, get_campaigns_by_id, update_user
 from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
 from _utils.db import logged_in, submit_report
 from _utils.messages import get_apply_message, get_create_message
@@ -29,9 +29,9 @@ def get_current_user():
         except zenora.exceptions.BadTokenError:
             submit_report(db, "get_current_user", "zenora.exceptions.BadTokenError: Invalid token has been passed")
             return False, render_template('message.html', current_user=None, header="Oh no!", message="Your token has expired. Please log in again.")
-        user = bearer_client.users.get_current_user()
-        logged_in(user.id, db)
-        return True, user
+        current_user = bearer_client.users.get_current_user()
+        logged_in(current_user.id, db)
+        return True, current_user
     else:
         return True, None
 
@@ -46,6 +46,21 @@ def page(template, kargs = {}): # used to not have to include all of the default
 def page_index():
     return page('home.html')
 
+@app.route('/user_profile/')
+def page_user_profile():
+    if 'username' in session:
+        res, current_user = get_current_user()
+        if not res:
+            session['url'] = '/user_profile/'
+            redirect('/login/')
+        user, error = get_user(current_user.id, db, current_user)
+        if error:
+            return page_message(error)
+        return page('user_profile.html', {'user': user})
+    else:
+        session['url'] = '/user_profile/'
+        return redirect('/login/')
+
 @app.route('/user_dashboard/')
 def page_user_dashboard():
     if 'username' in session:
@@ -56,19 +71,12 @@ def page_user_dashboard():
         user, error = get_user(current_user.id, db, current_user)
         if not user:
             return page_message(error)
-        campaigns, error = get_campaigns(db, current_user)
+        campaigns_player, error = get_campaigns_by_id(db, current_user, user.campaigns_player)
         if error:
             return page_message(error)
-        campaigns_player = []
-        for campaign_id in user.campaigns_player:
-            curr = get_campaign_by_id(campaigns, campaign_id)
-            if curr:
-                campaigns_player.append(curr)
-        campaigns_dm = []
-        for campaign_id in user.campaigns_dm:
-            curr = get_campaign_by_id(campaigns, campaign_id)
-            if curr:
-                campaigns_dm.append(curr)
+        campaigns_dm, error = get_campaigns_by_id(db, current_user, user.campaigns_dm)
+        if error:
+            return page_message(error)
         return page('user_dashboard.html', {'user_campaigns': campaigns_player, 'dm_campaigns': campaigns_dm})
     else:
         session['url'] = '/user_dashboard/'
@@ -127,12 +135,17 @@ def page_apply(campaign_id):
     user, error = get_user(current_user.id, db, current_user)
     if not user:
         return page_message(error)
+    
+    # check if profile is filled out
+    if not user.first_name:
+        return page('user_profile.html', {'user': user, 'message': 'Please fill out your user profile before applying for a campaign.'})
+
     reason = user.can_join()
     if not reason:
         campaign, error = get_campaign(campaign_id, db, current_user)
         if not campaign:
             return page_message(error)
-        return page('apply.html', {'campaign':campaign})
+        return page('apply.html', {'campaign':campaign, 'user': user})
     else:
         return page_message(message = "You don't have permission to perform this action. " + reason)
     
@@ -171,9 +184,15 @@ def page_create():
     user, error = get_user(current_user.id, db, current_user)
     if not user:
         return page_message(error)
+    
+    # check if profile is filled out
+    if not user.first_name:
+        return page('user_profile.html', {'user': user, 'message': 'Please fill out your user profile before creating a campaign.'})
+
     reason = user.can_create(db)
     if not reason:
-        return page('create.html')
+        print(user)
+        return page('create.html', {'user': user})
     else:
         return page_message(message = "You don't have permission to perform this action. " + reason)
     
@@ -198,6 +217,37 @@ def post_create():
     else:
         return page_message(message = "You don't have permission to perform this action. " + reason)
 
+@app.route("/user_profile/", methods=["POST"])
+def post_user_profile():
+    if 'username' in session:
+        res, current_user = get_current_user()
+        if not res:
+            session['url'] = '/user_profile/'
+            redirect('/login/')
+        user, error = get_user(current_user.id, db, current_user)
+        if error:
+            return page_message(error)
+        
+        # get info from submission
+        submission = request.form
+        user.id = current_user.id
+        user.first_name = submission['name_first']
+        user.last_name = submission['name_last']
+        if submission['unt_student'] == "Yes":
+            user.unt_student = True
+            user.unt_email = submission['unt_email']
+        else:
+            user.unt_student = False
+            user.unt_email = ""
+
+        if update_user(user.id, db, user): # if successfully posted
+            return page('user_profile.html', {'user': user, 'message': 'Your user profile has been updated.'})
+        else:
+            return page_message(message = "Something went wrong while trying to update your user profile.")
+    else:
+        session['url'] = '/user_profile/'
+        return redirect('/login/')
+
 @app.route('/about/')
 def page_about():
     return page('about.html')
@@ -208,7 +258,7 @@ def page_officers():
     data = f.read()
     f.close()
     officers = parse_data(data)
-    return page('officers.html', {'officers':officers})
+    return page('officers.html', {'officers': officers})
 
 # TESTING
 #'''

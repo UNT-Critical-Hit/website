@@ -4,7 +4,7 @@
 <div>
 
     {% if dm_campaigns|length > 0 %}
-        <h2 class="border-bottom mt-4 ml-3 text-left">Your Campaigns (Dungeon Master)</h2>
+        <h2 class="border-bottom mt-4 ml-3 text-center">Your Campaigns (Dungeon Master)</h2>
         <div class="centered-content">
             <div class="centered-content mb-5">
                 {% for campaign in dm_campaigns %}
@@ -43,7 +43,7 @@
         </div>
     {% endif %}
 
-    <h2 class="border-bottom ml-3">Your Campaigns (Player)</h2>
+    <h2 class="border-bottom ml-3 text-center">Your Campaigns (Player)</h2>
     <div class="centered-content">
         {% for campaign in user_campaigns %}
             <div class="card campaign-card" id="{{campaign.id}}">

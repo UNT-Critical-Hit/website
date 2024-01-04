@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime
+from zenora import OwnUser
 
 @dataclass
-class User:
+class User():
     """
     Holds information for any queried user
     :param id: The user's ID
@@ -21,8 +22,15 @@ class User:
     :param campaigns_player: List of campaigns the user is a player in
     :param campaigns_dm: List of campaigns the user is a DM in
     """
+
+    first_name: str = ""
+    last_name: str = ""
+    unt_student: bool = True
+    unt_email: str = ""
+
     id: int = 0
     name: str = ""
+    username: str = name
     discriminator: str = ""
     nickname: str = ""
     officer: bool = False

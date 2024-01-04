@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="alert_card" class="alert-card" style="display: none;">
+    <p id="alert_card_message">{{message}}</p>
+    <button id="close_card" class="btn btn-primary">Close</button>
+</div>
+
+<div class="centered-content">
+
+    <form style="padding: 20px;" action="{{ url_for('page_user_profile') }}" method="post">
+        <h2 class="text-center border-bottom">User Profile</h2>
+
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-group">
+                <input name="name_first" type="text" class="form-control" placeholder="First Name" value="{{user.first_name}}" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+                <input name="name_last" type="text" class="form-control" placeholder="Last Name" value="{{user.last_name}}" pattern="^([A-Z][a-z]*)+(([']?|[ ]?|[\-]?)[A-z])*$" required>
+            </div>
+        </div>
+
+        <input id="user_unt_student" type="hidden" value="{{user.unt_student}}">
+
+        <div class="form-group">
+            <label for="email">UNT Email Address</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <select id="unt_student" name="unt_student" required class="custom-select" id="inputGroupSelect01" placeholder="Are you a UNT student?" autocomplete="off">
+                        <option value="" selected>Are you a UNT student?</option>
+                        <option id="unt_student_yes" value="Yes" onclick="toggle_email(true);">Yes</option>
+                        <option id="unt_student_no" value="No" onclick="toggle_email(false);">No</option>
+                    </select>
+                </div>
+                <input name="unt_email" value="{{user.unt_email}}" id="email" type="text" class="form-control" placeholder="UNT Email Address" aria-label="UNT Email Address" aria-describedby="basic-addon2" pattern="^([A-z]+[\-]*[A-z]*){2,99}[0-9]*$" required>
+                <div id="email_append" class="input-group-append">
+                    <span id="email_addon" class="input-group-text" id="basic-addon2">@my.unt.edu</span>
+                </div>
+            </div>
+            <small id="email_help" class="form-text text-muted">Only officers will have access to your email.</small>
+        </div>
+
+        <button type="submit" class="btn btn-secondary">Update</button>
+
+    </form>
+
+</div>
+
+<script src="{{ url_for('static', filename='scripts/apply.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/user_profile.js') }}"></script>
+
+
+{% endblock content %}
