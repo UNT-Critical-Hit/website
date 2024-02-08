@@ -9,6 +9,12 @@ window.addEventListener('load', function() {
         });
     }
 
+    // alert card event listeners
+    let alert_card = document.getElementById('alert_card');
+    document.getElementById('close_card').addEventListener('click', function() {
+        alert_card.remove();
+    });
+
 });
 
 let expanded = null;

@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime
 from _utils.db import submit_report
+from _utils.CampaignActionRequest import CampaignActionRequest
 
 def submit_player(submission, user, campaign, db):
     url = "https://docs.google.com/forms/d/1Xbl5zCFP8XnTAU7EqVEh2aULOB_ojvuJ6B763XAPc28/formResponse"
@@ -29,7 +30,6 @@ def submit_player(submission, user, campaign, db):
         return False
     
 def send_new_application(submission, user, campaign, db):
-    print("Attempting to send new application...")
     url = "https://api.midnight.wtf/campaigns/apply?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a"
 
     unt_email = ""
