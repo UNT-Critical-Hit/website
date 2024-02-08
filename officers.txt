@@ -5,22 +5,22 @@ Bio: Charlie is a chemistry major who has played ttrpgs since they were 12 years
 Image Filename: charlie.jpg
 
 Position: Vice President
-Name: Meg McAdams
-Pronouns: she/her
-Bio: Meg is a senior majoring in computer science and minoring in Spanish. She is fairly new to TTRPGs, but she founded the club in 2021 to find other students interested in them.
-Image Filename: meg.png
-
-Position: Membership
-Name: Hallye Aston
-Pronouns: she/her
-Bio: I'm a creative writing major, currently in the process of writing my first book!
-Image Filename: hal.jpeg
+Name: Kris Stradling
+Pronouns: they/them, he/him
+Bio: I am a sophomore majoring in Interdisciplinary Studies in Art and Design at UNT. I have played TTRPGs for almost a year now and I have been a dungeon master since October. Some of my other hobbies and interests include playing the electric violin, divination, cooking/baking, and rock climbing! 
+Image Filename: kris.jpg
 
 Position: Social Media Manager
 Name: Celeste Hughes
 Pronouns: she/her, they/them, he/him
 Bio: Celeste is a sophomore majoring in Art History and a lover of all things arts-related! They have been playing TTRPGs for several years now. Their non-D&D hobbies include gaming, drawing, blogging, and jamming out on their guitar.
 Image Filename: celeste.jpg
+
+Position: Event Coordinator
+Name: Zachariah	Collazo
+Pronouns: he/him
+Bio: My major is English, with a History minor. I'm a sophomore in college. Most of my hobbies revolve around DND/tabletop like designing characters and story writing, but I also really enjoy playing video games and singing. 
+Image Filename: zach.jpg
 
 Position: Campaign Master
 Name: Mackenzie Applin
@@ -34,7 +34,7 @@ Pronouns: he/him
 Bio: I am a marketing major with a passion for Table-Top RPGs and storytelling. My favorite color is blue-no yellooooow!
 Image Filename: tyger.jpg
 
-Position: Event Coordinator
+Position: membership
 Name: Ryan James
 Pronouns: he/him
 Bio: Ryan is a Business Analytics major who loves ttrpgs (duh) and music. His favorite game systems are 5e D&D and Call of Cthulhu.
@@ -45,3 +45,9 @@ Name: Rhys Lawson
 Pronouns: they/them
 Bio: Hey hey! My name is Rhys, i'm a junior Criminal Justice student here at UNT, and i've been playing TTRPGs for about two years now! I hope to serve the Critical Hit community to my best ability!
 Image Filename: rhys.jpeg
+
+Position: Founder
+Name: Meg McAdams
+Pronouns: she/her
+Bio: Meg founded the club in 2021 to help students find TTRPG groups to join. She graduated in 2023 with a Bachelor's of Science in Computer Science. 
+Image Filename: meg.png

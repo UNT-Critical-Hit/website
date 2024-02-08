@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<div id="alert_card" class="alert-card" style="display: none;">
+    <p id="alert_card_message"></p>
+    <button id="close_card" class="btn btn-primary">Close</button>
+</div>
+
+<input id="action" name="action" hidden value="">
+
 <div>
 
     {% if dm_campaigns|length > 0 %}

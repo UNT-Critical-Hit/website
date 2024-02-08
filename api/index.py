@@ -11,6 +11,7 @@ from _utils.messages import get_apply_message, get_create_message
 from urllib import parse
 from markupsafe import Markup
 from _utils.misc import get_campaign_by_id
+from _utils.CampaignActionRequest import CampaignActionRequest
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -115,14 +116,22 @@ def callback():
 
 @app.route("/campaigns/")
 def page_campaigns():
-    res, current_user = get_current_user()
-    if not res:
-        return current_user
+    current_user = None
+    if 'username' in session:
+        res, current_user = get_current_user()
+        if not res:
+            session['url'] = '/user_profile/'
+            redirect('/login/')
+        user, error = get_user(current_user.id, db, current_user)
+        if error:
+            return page_message(error)
+    else:
+        user = None
     campaigns, error = get_campaigns(db, current_user)
     if not campaigns:
         return page_message(error)
 
-    return page('campaigns.html', {'campaigns':campaigns})
+    return page('campaigns.html', {'campaigns':campaigns, 'user': user})
 
 @app.route("/apply/<campaign_id>")
 def page_apply(campaign_id):
