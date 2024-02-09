@@ -30,6 +30,9 @@ def get_current_user():
         except zenora.exceptions.BadTokenError:
             submit_report(db, "get_current_user", "zenora.exceptions.BadTokenError: Invalid token has been passed")
             return False, render_template('message.html', current_user=None, header="Oh no!", message="Your token has expired. Please log in again.")
+        except Exception as ex:
+            submit_report(db, "get_current_user", "zenora: {0}".format(ex.__name__))
+            return False, render_template('message.html', current_user=None, header="Oh no!", message="An unknown error occured on login.")
         current_user = bearer_client.users.get_current_user()
         logged_in(current_user.id, db)
         return True, current_user
