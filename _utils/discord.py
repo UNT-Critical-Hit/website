@@ -69,7 +69,14 @@ def get_user(id: int, db: firestore.client, current_user: OwnUser):
     except requests.exceptions.JSONDecodeError:
         submit_report(db, "get_user", "The bot returned nothing", current_user)
         return None, "Connection to the bot timed out. Please inform an officer that the bot is down."
-    return generate_struct(json.loads(resp.json()), User), None
+    except Exception as ex:
+        submit_report(db, "get_user", "Unknown error: {0}".format(str(ex)))
+        return None, "An unknown error occured. Please reach out to Meg M for help (Discord username: megocakes)."
+    try:
+        return generate_struct(json.loads(resp.json()), User), None
+    except Exception as ex:
+        submit_report(db, "get_user", "Unknown error: {0}".format(str(ex)))
+        return None, "An unknown error occured. Please reach out to Meg M for help (Discord username: megocakes)."
 
 def create_user(id: int, db: firestore.client, user: User):
     url = "https://api.midnight.wtf/users/{id}/update?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a".format(id=id)
