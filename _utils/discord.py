@@ -69,6 +69,9 @@ def get_user(id: int, db: firestore.client, current_user: OwnUser):
     except requests.exceptions.JSONDecodeError:
         submit_report(db, "get_user", "The bot returned nothing", current_user)
         return None, "Connection to the bot timed out. Please inform an officer that the bot is down."
+    except Exception as ex:
+        submit_report(db, "get_user", "Unknown error: {0}".format(ex.__name__))
+        return None, "An unknown error occured."
     return generate_struct(json.loads(resp.json()), User), None
 
 def create_user(id: int, db: firestore.client, user: User):
