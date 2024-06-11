@@ -14,7 +14,7 @@ Position: Social Media Manager
 Name: Conner Reed
 Pronouns: he/him
 Bio: Conner is a Media Arts Major who spends entirely to much of his day creating ttrpg characters that will never see the light of day. This comes from playing ttrpgs for 15 years.
-Image Filename: conner.jpg
+Image Filename: conner.JPG
 
 Position: Event Coordinator
 Name: Dylan Czechowicz
@@ -38,7 +38,7 @@ Position: Membership
 Name: Zachariah Collazo
 Pronouns: he/him
 Bio: I'm a junior currently majoring in creative writing with a minor in history. I love TTRPGs along with designing characters and writing their backstories. My favorite TTRPG system is Pathfinder 2e, I highly recommend trying it. I also really enjoy singing and playing video games.
-Image Filename: zach.png
+Image Filename: zach.PNG
 
 Position: Treasurer
 Name: Rhys Lawson
