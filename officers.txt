@@ -1,26 +1,26 @@
 Position: President
-Name: Charlie Gilmore
-Pronouns: they/them
-Bio: Charlie is a chemistry major who has played ttrpgs since they were 12 years old! When they're not being the discord cryptid, they can be seen working on creative projects.
-Image Filename: charlie.jpg
-
-Position: Vice President
 Name: Kris Stradling
-Pronouns: they/them, he/him
-Bio: I am a sophomore majoring in Interdisciplinary Studies in Art and Design at UNT. I have played TTRPGs for almost a year now and I have been a dungeon master since October. Some of my other hobbies and interests include playing the electric violin, divination, cooking/baking, and rock climbing! 
+Pronouns: he/him, they/them
+Bio: I am majoring in interdisciplinary studies in art and design and minoring in human development and family sciences. I have been playing ttrpgs since April of 2023 and running campaigns since October 2023! My other hobbies include playing violin, cooking, and listening to music. 
 Image Filename: kris.jpg
 
-Position: Social Media Manager
+Position: Vice President
 Name: Celeste Hughes
 Pronouns: she/her, they/them, he/him
-Bio: Celeste is a sophomore majoring in Art History and a lover of all things arts-related! They have been playing TTRPGs for several years now. Their non-D&D hobbies include gaming, drawing, blogging, and jamming out on their guitar.
+Bio: Celeste is a junior majoring in Art History and a lover of all things arts-related! They have been playing--and loving--TTRPGs for years. Their non-tabletop hobbies include writing, drawing & painting, gaming, and playing guitar.
 Image Filename: celeste.jpg
 
-Position: Event Coordinator
-Name: Zachariah	Collazo
+Position: Social Media Manager
+Name: Conner Reed
 Pronouns: he/him
-Bio: My major is English, with a History minor. I'm a sophomore in college. Most of my hobbies revolve around DND/tabletop like designing characters and story writing, but I also really enjoy playing video games and singing. 
-Image Filename: zach.jpg
+Bio: Conner is a Media Arts Major who spends entirely to much of his day creating ttrpg characters that will never see the light of day. This comes from playing ttrpgs for 15 years.
+Image Filename: conner.jpg
+
+Position: Event Coordinator
+Name: Dylan Czechowicz
+Pronouns: he/him
+Bio: History Major, Macabre enjoyer, fav color: yellow
+Image Filename: dylan.jpeg
 
 Position: Campaign Master
 Name: Mackenzie Applin
@@ -35,10 +35,10 @@ Bio: I am a marketing major with a passion for Table-Top RPGs and storytelling. 
 Image Filename: tyger.jpg
 
 Position: Membership
-Name: Ryan James
+Name: Zachariah Collazo
 Pronouns: he/him
-Bio: Ryan is a Business Analytics major who loves ttrpgs (duh) and music. His favorite game systems are 5e D&D and Call of Cthulhu.
-Image Filename: ryan.jpeg
+Bio: I'm a junior currently majoring in creative writing with a minor in history. I love TTRPGs along with designing characters and writing their backstories. My favorite TTRPG system is Pathfinder 2e, I highly recommend trying it. I also really enjoy singing and playing video games.
+Image Filename: zach.png
 
 Position: Treasurer
 Name: Rhys Lawson
