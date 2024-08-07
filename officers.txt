@@ -41,10 +41,10 @@ Bio: I'm a junior currently majoring in creative writing with a minor in history
 Image Filename: zach.PNG
 
 Position: Treasurer
-Name: Rhys Lawson
-Pronouns: they/them
-Bio: Hey hey! My name is Rhys, i'm a junior Criminal Justice student here at UNT, and i've been playing TTRPGs for about two years now! I hope to serve the Critical Hit community to my best ability!
-Image Filename: rhys.jpeg
+Name: Brooke Bentley
+Pronouns: any
+Bio: Hello, I'm Brooke! I'm a history major and classical studies minor. I love ancient history, making art, playing video games, writing, and listening to music. 
+Image Filename: brooke.jpg
 
 Position: Founder
 Name: Meg McAdams
