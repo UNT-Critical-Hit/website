@@ -99,4 +99,6 @@ class Campaign:
         if hour > 12:
             hour -= 12
             time = "PM"
+        elif hour == 12:
+            time = "PM"
         return str(hour) + ":" + minute + " " + time
