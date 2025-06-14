@@ -3,7 +3,6 @@ from firebase_admin import credentials, firestore, initialize_app
 from _utils.officers import parse_data
 from zenora import APIClient
 import zenora.exceptions
-from _utils.config import TOKEN, CLIENT_SECRET
 from _utils.discord import get_campaigns, get_campaign, get_user, get_campaigns_by_id, update_user
 from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
 from _utils.db import logged_in, submit_report
@@ -13,9 +12,25 @@ from markupsafe import Markup
 from _utils.misc import get_campaign_by_id
 from _utils.CampaignActionRequest import CampaignActionRequest
 
+# env variables
+# For testing purposes, you can set these variables in a testing.env file or directly in your environment
+import os
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', 'testing.env'))
+FLASK_SECRET_KEY = os.environ.get('FLASK_SECRET_KEY')
+FIREBASE_CRED = {}
+for key in ["type", "project_id", "private_key_id", "private_key", "client_email", "client_id", 
+            "auth_uri", "token_uri", "auth_provider_x509_cert_url", "client_x509_cert_url", 
+            "universe_domain"]:
+    FIREBASE_CRED[key] = os.environ.get("FIREBASE_" + key.upper())
+TOKEN = os.environ.get('TOKEN')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+
 # Initialize Flask app
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "verysecret"
+app.config["SECRET_KEY"] = FLASK_SECRET_KEY
 client = APIClient(TOKEN, client_secret=CLIENT_SECRET)
 
 # Initialize Firestore DB

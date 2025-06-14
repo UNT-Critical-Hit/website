@@ -2,6 +2,8 @@ import requests
 from datetime import datetime
 from _utils.db import submit_report
 from _utils.CampaignActionRequest import CampaignActionRequest
+import os
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 def submit_player(submission, user, campaign, db):
     url = "https://docs.google.com/forms/d/1Xbl5zCFP8XnTAU7EqVEh2aULOB_ojvuJ6B763XAPc28/formResponse"
@@ -30,7 +32,7 @@ def submit_player(submission, user, campaign, db):
         return False
     
 def send_new_application(submission, user, campaign, db):
-    url = "https://api.midnight.wtf/campaigns/apply?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a"
+    url = "https://api.midnight.wtf/campaigns/apply?auth={}".format(BOT_TOKEN)
 
     unt_email = ""
     if submission['unt_student'] == 'Yes':
@@ -120,7 +122,7 @@ def submit_dm(submission, user, db):
         return False
 
 def send_new_campaign(submission, user, db):
-    url = "https://api.midnight.wtf/campaigns/create?auth=1e071fa5-f022-44fc-b884-b5e36bc0c80a"
+    url = "https://api.midnight.wtf/campaigns/create?auth={}".format(BOT_TOKEN)
 
     location = submission['location']
     if location == 'In-person':
