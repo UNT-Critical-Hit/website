@@ -23,7 +23,11 @@ FIREBASE_CRED = {}
 for key in ["type", "project_id", "private_key_id", "private_key", "client_email", "client_id", 
             "auth_uri", "token_uri", "auth_provider_x509_cert_url", "client_x509_cert_url", 
             "universe_domain"]:
-    FIREBASE_CRED[key] = os.environ.get("FIREBASE_" + key.upper())
+    value = os.environ.get("FIREBASE_" + key.upper())
+    if key == "private_key" and value is not None:
+        # Replace literal \n with actual newlines
+        value = value.replace('\\n', '\n')
+    FIREBASE_CRED[key] = value
 TOKEN = os.environ.get('TOKEN')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
