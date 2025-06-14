@@ -34,7 +34,7 @@ app.config["SECRET_KEY"] = FLASK_SECRET_KEY
 client = APIClient(TOKEN, client_secret=CLIENT_SECRET)
 
 # Initialize Firestore DB
-cred = credentials.Certificate('key.json')
+cred = credentials.Certificate(FIREBASE_CRED)
 fs_app = initialize_app(cred)
 db = firestore.client()
 
