@@ -76,14 +76,17 @@ def submit_dm(submission, user, db):
     playstyle = ""
     if submission['dm_experience'] == 'Yes':
         playstyle = submission['playstyle']
-
-    session_length = ""
-    if int(submission['session_length_hours']) == 0:
-        session_length = submission['session_length_minutes'] + " minutes"
-    elif int(submission['session_length_minutes']) == 0:
-        session_length = submission['session_length_hours'] + " hours"
-    else:
-        session_length = submission['session_length_hours'] + " hours and " + submission['session_length_minutes'] + " minutes"
+    if location == "Play-By-Post (Text-based)":
+        session_length = ""
+        day = ""
+        date = ""
+    else :
+        if int(submission['session_length_hours']) == 0:
+            session_length = submission['session_length_minutes'] + " minutes"
+        elif int(submission['session_length_minutes']) == 0:
+            session_length = submission['session_length_hours'] + " hours"
+        else:
+            session_length = submission['session_length_hours'] + " hours and " + submission['session_length_minutes'] + " minutes"
 
     unt_email = user.unt_email
     if not unt_email:
@@ -144,13 +147,17 @@ def send_new_campaign(submission, user, db):
     if submission['dm_experience'] == 'Yes':
         playstyle = submission['playstyle']
 
-    session_length = ""
-    if int(submission['session_length_hours']) == 0:
-        session_length = submission['session_length_minutes'] + " minutes"
-    elif int(submission['session_length_minutes']) == 0:
-        session_length = submission['session_length_hours'] + " hours"
-    else:
-        session_length = submission['session_length_hours'] + " hours and " + submission['session_length_minutes'] + " minutes"
+    if location == "Play-By-Post (Text-based)":
+        session_length = ""
+        day = ""
+        date = ""
+    else :
+        if int(submission['session_length_hours']) == 0:
+            session_length = submission['session_length_minutes'] + " minutes"
+        elif int(submission['session_length_minutes']) == 0:
+            session_length = submission['session_length_hours'] + " hours"
+        else:
+            session_length = submission['session_length_hours'] + " hours and " + submission['session_length_minutes'] + " minutes"
 
     data = {
     "name": submission['campaign_name'],

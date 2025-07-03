@@ -56,6 +56,20 @@ function toggle_inperson() {
     toggle_other();
 }
 
+function toggle_datetime() {
+    let val = document.getElementById('location').value;
+    let d1 = document.getElementById("daytime_div")
+    let d2 = document.getElementById("length_div")
+
+    if (val !== "Play-By-Post (Text-based)") {
+        d1.style = ""
+        d2.style = ""
+    } else {
+        d1.style = "display: none;"
+        d2.style = "display: none;"
+    }
+}
+
 function toggle_system_other() {
     let element = document.getElementById('other_system');
     let val = document.getElementById('system').value;
@@ -255,5 +269,7 @@ document.getElementById("back_button").addEventListener("click", () => {
 });
 
 document.getElementById('location').addEventListener('change',toggle_inperson);
+
+document.getElementById('location').addEventListener('change',toggle_datetime); // hide date/time/freq. for play-by-post campaigns
 
 document.getElementById('system').addEventListener('change',toggle_system_other);

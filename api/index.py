@@ -1,35 +1,33 @@
-from flask import Flask, render_template, request, session, redirect
-from firebase_admin import credentials, firestore, initialize_app
-from _utils.officers import parse_data
-from zenora import APIClient
+
+import os
+from urllib import parse
+
 import zenora.exceptions
+from firebase_admin import credentials, firestore, initialize_app
+from flask import Flask, render_template, request, session, redirect
+from markupsafe import Markup
+from zenora import APIClient
+
+from _utils.db import logged_in, submit_report
 from _utils.discord import get_campaigns, get_campaign, get_user, get_campaigns_by_id, update_user
 from _utils.form import submit_player, submit_dm, send_new_campaign, send_new_application
-from _utils.db import logged_in, submit_report
 from _utils.messages import get_apply_message, get_create_message
-from urllib import parse
-from markupsafe import Markup
-from _utils.misc import get_campaign_by_id
-from _utils.CampaignActionRequest import CampaignActionRequest
+from _utils.officers import parse_data
+
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', 'testing.env'))
 
 # env variables
 # For testing purposes, you can set these variables in a testing.env file or directly in your environment
-import os
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', 'testing.env'))
+
+DEBUG = int(os.environ.get("DEBUG", 0))
 FLASK_SECRET_KEY = os.environ.get('FLASK_SECRET_KEY')
-FIREBASE_CRED = {}
-for key in ["type", "project_id", "private_key_id", "private_key", "client_email", "client_id", 
-            "auth_uri", "token_uri", "auth_provider_x509_cert_url", "client_x509_cert_url", 
-            "universe_domain"]:
-    value = os.environ.get("FIREBASE_" + key.upper())
-    if key == "private_key" and value is not None:
-        # Replace literal \n with actual newlines
-        value = value.replace('\\n', '\n')
-    FIREBASE_CRED[key] = value
+
 TOKEN = os.environ.get('TOKEN')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+CLIENT_ID = os.environ.get('CLIENT_ID', 1161374229099454614)
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 # Initialize Flask app
@@ -37,10 +35,24 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = FLASK_SECRET_KEY
 client = APIClient(TOKEN, client_secret=CLIENT_SECRET)
 
-# Initialize Firestore DB
-cred = credentials.Certificate(FIREBASE_CRED)
-fs_app = initialize_app(cred)
-db = firestore.client()
+if not DEBUG:
+    # Initialize Firestore DB
+    FIREBASE_CRED = {}
+    for key in ["type", "project_id", "private_key_id", "private_key", "client_email", "client_id",
+                "auth_uri", "token_uri", "auth_provider_x509_cert_url", "client_x509_cert_url",
+                "universe_domain"]:
+        value = os.environ.get("FIREBASE_" + key.upper())
+        if key == "private_key" and value is not None:
+            # Replace literal \n with actual newlines
+            value = value.replace('\\n', '\n')
+        FIREBASE_CRED[key] = value
+
+    cred = credentials.Certificate(FIREBASE_CRED)
+    fs_app = initialize_app(cred)
+    db = firestore.client()
+else:
+    db = None
+
 
 def get_current_user():
     if 'token' in session:
@@ -108,7 +120,7 @@ def page_user_dashboard():
 @app.route("/login/")
 def page_login():
     redirect_uri = request.base_url.replace('login/','oauth/callback')
-    oauth_url = "https://discord.com/api/oauth2/authorize?client_id=1161374229099454614&redirect_uri="+parse.quote(redirect_uri)+"&response_type=code&scope=identify%20guilds%20guilds.members.read"
+    oauth_url = f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri={parse.quote(redirect_uri)}&response_type=code&scope=identify%20guilds%20guilds.members.read"
     return redirect(oauth_url)
 
 @app.route("/logout/")
