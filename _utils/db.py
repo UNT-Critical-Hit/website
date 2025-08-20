@@ -1,5 +1,8 @@
+import os
 from datetime import datetime
-from firebase_admin import credentials, firestore, initialize_app
+
+DEBUG = int(os.environ.get("DEBUG", 0))
+
 
 def logged_in(id, db):
     doc = db.collection('users').document(str(id))
@@ -35,3 +38,7 @@ def submit_report(db, function, error, user = None):
             'error': error
         }
     doc.set(contents)
+
+if DEBUG:
+    logged_in = lambda x, y: None
+    submit_report = lambda x, y, z, a = None: None

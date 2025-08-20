@@ -4,8 +4,8 @@
 <div class="centered-content">
 
     <form style="padding: 20px;" action="{{ url_for('page_create') }}" method="post">
-        <h2 class="text-center border-bottom">New Campaign Application</h5>
-        <h5>DM Information</h2>
+        <h2 class="text-center border-bottom">New Campaign Application</h2>
+        <h5>DM Information</h5>
         <div class="form-group">
             <label for="name_first">Full Name</label>
             <div class="input-group">
@@ -60,6 +60,23 @@
         </div>
 
         <div class="form-group">
+            <label for="location">Location</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <select name="location" class="custom-select" id="location" autocomplete="off" required>
+                        <option value="" selected>Where will sessions be held?</option>
+                        <option value="In-person">In-Person</option>
+                        <option value="Virtually">Virtually</option>
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="Play-By-Post (Text-based)">Play-By-Post (Text-based)</option>
+                    </select>
+                </div>
+                <div id="after_location_inperson_div"></div>
+                <div id="after_location_inperson_other"></div>
+            </div>
+        </div>
+
+        <div class="form-group" id="daytime_div">
             <label for="frequency">Day and Time</label>
             <div class="input-group" id="time-group">
                 <select id="frequency" name="frequency" class="custom-select" id="frequency" autocomplete="off" required>
@@ -91,7 +108,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="length_div">
             <label for="session_length_hours">Session Length</label>
             <div class="input-group" id="length_group">
                 <input name="session_length_hours" class="form-control" type="number" placeholder="Hours" required>
@@ -102,22 +119,6 @@
                 <div class="input-group-append">
                     <span class="input-group-text">minutes</span>
                 </div>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="location">Location</label>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <select id="location" name="location" class="custom-select" id="location" autocomplete="off" required>
-                        <option value="" selected>Where will sessions be held?</option>
-                        <option value="In-person">In-Person</option>
-                        <option value="Virtually">Virtually</option>
-                        <option value="Hybrid">Hybrid</option>
-                    </select>
-                </div>
-                <div id="after_location_inperson_div"></div>
-                <div id="after_location_inperson_other"></div>
             </div>
         </div>
 
