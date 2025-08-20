@@ -27,8 +27,8 @@ FLASK_SECRET_KEY = os.environ.get('FLASK_SECRET_KEY')
 
 TOKEN = os.environ.get('TOKEN')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
-CLIENT_ID = os.environ.get('CLIENT_ID', 1161374229099454614)
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
+DISCORD_CLIENT_ID = os.environ.get('DISCORD_CLIENT_ID')
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -120,7 +120,7 @@ def page_user_dashboard():
 @app.route("/login/")
 def page_login():
     redirect_uri = request.base_url.replace('login/','oauth/callback')
-    oauth_url = f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri={parse.quote(redirect_uri)}&response_type=code&scope=identify%20guilds%20guilds.members.read"
+    oauth_url = f"https://discord.com/api/oauth2/authorize?client_id={DISCORD_CLIENT_ID}&redirect_uri={parse.quote(redirect_uri)}&response_type=code&scope=identify%20guilds%20guilds.members.read"
     return redirect(oauth_url)
 
 @app.route("/logout/")
