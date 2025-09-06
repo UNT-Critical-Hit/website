@@ -60,13 +60,31 @@ function toggle_datetime() {
     let val = document.getElementById('location').value;
     let d1 = document.getElementById("daytime_div")
     let d2 = document.getElementById("length_div")
+    let frequency = document.getElementById("frequency");
+    let day = document.getElementById("day");
+    let time = document.getElementById("time");
+    let session_length_hours = document.getElementsByName("session_length_hours")[0];
+    let session_length_minutes = document.getElementsByName("session_length_minutes")[0];
+
 
     if (val !== "Play-By-Post (Text-based)") {
         d1.style = ""
         d2.style = ""
+        [frequency, day, time, session_length_hours, session_length_minutes].forEach(el => {
+            if (el) {
+                el.required = true;
+                el.value = "";
+            }
+        });
     } else {
         d1.style = "display: none;"
         d2.style = "display: none;"
+        [frequency, day, time, session_length_hours, session_length_minutes].forEach(el => {
+            if (el) {
+                el.required = false;
+                frequency.value = "N/A";
+            }
+        });
     }
 }
 
