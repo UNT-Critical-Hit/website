@@ -68,8 +68,8 @@ function toggle_datetime() {
 
 
     if (val !== "Play-By-Post (Text-based)") {
-        d1.style = ""
-        d2.style = ""
+        d1.style = "";
+        d2.style = "";
         [frequency, day, time, session_length_hours, session_length_minutes].forEach(el => {
             if (el) {
                 el.required = true;
@@ -77,14 +77,22 @@ function toggle_datetime() {
             }
         });
     } else {
-        d1.style = "display: none;"
-        d2.style = "display: none;"
+        d1.style = "display: none;";
+        d2.style = "display: none;";
         [frequency, day, time, session_length_hours, session_length_minutes].forEach(el => {
             if (el) {
                 el.required = false;
-                frequency.value = "N/A";
+                el.value = "";
             }
         });
+        let date = document.getElementById('date');
+        if (date) {
+            date.remove();
+        }
+        let date_append = document.getElementById('date_append');
+        if (date_append) {
+            date_append.style = "display: none;";
+        }
     }
 }
 
@@ -261,7 +269,7 @@ function toggle_date() {
             "<option value=\"Monday\">Monday</option>" +
             "<option value=\"Tuesday\">Tuesday</option>" +
             "<option value=\"Wednesday\">Wednesday</option>" +
-            "<option value=\"Wednesday\">Thursday</option>" +
+            "<option value=\"Thursday\">Thursday</option>" +
             "<option value=\"Friday\">Friday</option>" +
             "<option value=\"Saturday\">Saturday</option>"
             let afterDay = document.getElementById('after_day');
